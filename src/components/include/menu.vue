@@ -1,13 +1,13 @@
 <template>
      <div id="menu">
       <md-list>
+        <md-list-item @click.native="turn('/content/main')" class="md-inset">首页</md-list-item>
         <md-list-item class="">
           <md-icon>whatshot</md-icon>
           <span>News</span>
 
           <md-list-expand>
             <md-list>
-              <md-list-item @click.native="turn('/content/main')" class="md-inset">首页</md-list-item>
               <md-list-item @click.native="turn('/content/userTable')" class="md-inset">Americas</md-list-item>
               <md-list-item @click.native="turn('/content/main')" class="md-inset">Europe</md-list-item>
             </md-list>
@@ -18,7 +18,7 @@
           <span>Games</span>
           <md-list-expand>
             <md-list>
-              <md-list-item @click.native="turn('/content/main')" class="md-inset">Console</md-list-item>
+              <md-list-item @click.native="turn('/content/userTable')" class="md-inset">Console</md-list-item>
               <md-list-item class="md-inset">PC</md-list-item>
               <md-list-item class="md-inset">Phone</md-list-item>
             </md-list>
@@ -69,6 +69,5 @@
     width: 240px;
     left:0;
     bottom:40px;
-    background: fixed;
   }
 </style>

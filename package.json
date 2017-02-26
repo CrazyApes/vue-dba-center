@@ -1,11 +1,12 @@
 {
-  "name": "@yd/vue-cli",
+  "name": "@yd/vue-material-demo",
   "version": "1.0.0",
   "description": "A Vue spa project with mock",
   "author": "FlyPointRed",
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
+    "proxy":"node dev-server-proxy.js",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run e2e",
     "start": "node build/dev-server.js"

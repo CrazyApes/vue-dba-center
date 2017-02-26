@@ -23,7 +23,6 @@ export default {
 <style>
 #app{
 	background-image: url('../static/images/login-bg.jpg');
-  overflow: hidden;
   position: absolute;
   height:100%;
   width:100%; 

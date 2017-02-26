@@ -1,9 +1,7 @@
 <template>
-    <transition enter-active-class="animated slideIn" leave-active-class="animated slideOut">
-    <div id='index'>
-        index
-    </div>
-    </transition>
+        <div id='index'>
+            index
+        </div>
 </template>
 
 <script>
@@ -13,12 +11,8 @@ export default {
 </script>
 
 <style scoped>
-    /*#index{
-        position: absolute;
-        top:100px;
-        left:240px;
-        right:0px;
-        bottom: 40px;
+    #index{
+      
         background: burlywood;
-    }*/
+    }
 </style>

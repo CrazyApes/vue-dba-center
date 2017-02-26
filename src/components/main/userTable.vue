@@ -1,19 +1,17 @@
 <template>
-        <transition enter-active-class="animated slideIn" leave-active-class="animated slideOut">
-            <div id='userTable'>
-                
-            </div>
-        </transition>
+    <div id='userTable'>
+    </div>
 </template>
 
 <script>
-export default {
-    name: 'userTable'
-}
+    export default {
+        name: 'userTable'
+    }
+
 </script>
 
 <style scoped>
-#userTable{
-    background:skyblue;
-}
+    #userTable {
+        background: skyblue;
+    }
 </style>

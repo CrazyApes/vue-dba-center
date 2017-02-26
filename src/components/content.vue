@@ -3,10 +3,10 @@
         <v-header></v-header>
         <v-menu></v-menu>
         <!-- 路由匹配到的组件将渲染在这里 -->
-        <v-footer></v-footer>
-        <transition enter-active-class="animated slideIn" leave-active-class="animated slideOut">
+        <transition enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
             <router-view class="content"></router-view>
         </transition>
+        <v-footer></v-footer>
     </div>
 </template>
 <script>
@@ -30,7 +30,6 @@
     left:240px;
     right:0px;
     bottom: 40px;
-    background: burlywood;
     overflow-x:none;
     overflow-y:auto;  
 }

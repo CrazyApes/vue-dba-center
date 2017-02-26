@@ -1,7 +1,7 @@
 # vue-dba-center
-A simple dome build by vuejs
+Open the door of vuejs.
 
-## 步骤
+## Step
 
 ``` bash
 # install dependencies

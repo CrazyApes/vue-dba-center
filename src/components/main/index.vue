@@ -1,7 +1,5 @@
 <template>
-        <div id='index'>
-            index
-        </div>
+        <md-layout id='index'></md-layout>
 </template>
 
 <script>
@@ -12,7 +10,6 @@ export default {
 
 <style scoped>
     #index{
-      
         background: burlywood;
     }
 </style>

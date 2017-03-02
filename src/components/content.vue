@@ -3,7 +3,7 @@
         <v-header></v-header>
         <v-menu></v-menu>
         <!-- 路由匹配到的组件将渲染在这里 -->
-        <transition enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
+        <transition enter-active-class="animated rollIn" leave-active-class="animated rollOut">
             <router-view class="content"></router-view>
         </transition>
         <v-footer></v-footer>
@@ -30,7 +30,7 @@
     left:240px;
     right:0px;
     bottom: 40px;
-    overflow-x:none;
-    overflow-y:auto;  
+    overflow: none;
 }
+
 </style>

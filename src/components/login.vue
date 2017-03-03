@@ -5,7 +5,6 @@
             <md-layout md-flex="30" md-flex-offset="35" style="height: 400px;margin-top: 200px;">
 
                 <md-layout md-align="center" md-flex="60" md-flex-offset="20" center>
-                    <form novalidate autocomplete="on" @submit.stop.prevent="submit">
                         <span class="md-display-2">Headline</span></md-layout>
                 <md-layout md-flex="60" md-flex-offset="20">
                     <md-input-container>
@@ -23,7 +22,7 @@
                         <md-button style="width:200px;" @click.native="login()" class="md-raised md-accent">Login</md-button>
                     </md-layout>
                 </md-layout>
-                </form>
+               
 
             </md-layout>
 

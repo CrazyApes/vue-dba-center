@@ -3,7 +3,7 @@
         <v-header></v-header>
         <v-menu></v-menu>
         <!-- 路由匹配到的组件将渲染在这里 -->
-        <transition enter-active-class="animated rollIn" leave-active-class="animated rollOut">
+        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
             <router-view class="content"></router-view>
         </transition>
         <v-footer></v-footer>

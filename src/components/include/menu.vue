@@ -32,8 +32,7 @@
       },
       methods: {
         fetchData(){
-          this.menuList=[{name:'用户列表',path:'/content/userTable'}];
-          console.log('sss');
+          this.menuList=[{name:'客户列表',path:'/content/userTable'}];
         },
         turn(e){
           this.$router.push({path:e});
@@ -50,7 +49,5 @@
     left:0;
     bottom:40px;
   }
-  [textLable]{
-    font-family: "微软雅黑" ;
-  }
+  
 </style>

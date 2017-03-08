@@ -1,5 +1,9 @@
 <template>
-  <div id="header">header组件</div>
+  <div id="header">
+    <md-layout md-gutter>
+            <img class="logo" src="../../../static/images/Telsa-Model-X-2012-Model-X-widescreen-03.jpg" alt="logo"/>
+     </md-layout>
+  </div>
 </template>
 <script>
   export default{
@@ -14,6 +18,13 @@
     right:0;
     height:100px;
     box-sizing: border-box;
-    background: darkcyan;
+    background: rgb(13, 175, 160);
+  }
+  .logo{
+    margin-left: 10px;
+    margin-top:10px;
+    width:220px;
+    height:80px;
+    vertical-align:middle;
   }
 </style>

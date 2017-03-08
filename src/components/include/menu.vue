@@ -32,7 +32,7 @@
       },
       methods: {
         fetchData(){
-          this.menuList=[{name:'客户列表',path:'/content/userTable'}];
+          this.menuList=[{name:'客户列表',path:'/content/userTable'},{name:'价格模板管理',path:'/content/userTable'}];
         },
         turn(e){
           this.$router.push({path:e});
@@ -48,6 +48,7 @@
     width: 240px;
     left:0;
     bottom:40px;
+    background:rgba(98, 63, 181, 0.48)
   }
   
 </style>

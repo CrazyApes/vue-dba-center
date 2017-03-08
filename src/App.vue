@@ -24,7 +24,7 @@ export default {
 #app{
 	background-image: url('../static/images/login-bg.jpg');
   position: absolute;
-  
+  min-height: 666px;
   height:100%;
   width:100%; 
   top:0;

@@ -1,12 +1,12 @@
 <template>
     <div id='userTable' style="display: flex">
-        <md-table-card style="width:80%;margin:5% 10% auto 10%;min-height: 500px;min-width: 800px;max-height: 650px;">
+        <md-table-card class="content-body">
             <md-toolbar>
                 <span class="md-title" textLable>客户列表</span>
                 <md-button class="md-icon-button">
                     <md-icon>filter_list</md-icon>
                 </md-button>
-                <md-button class="md-icon-button">
+                <md-button class="md-icon-button" @click.native="chengetable()">
                     <md-icon>search</md-icon>
                 </md-button>
             </md-toolbar>
@@ -60,7 +60,7 @@
                     </md-table-row>
                 </md-table-body>
             </md-table>
-            <md-table-pagination md-size="5" :md-total="total" md-page="1" md-label="Rows" md-separator="of" :md-page-options="[5, 10, 25, 50]"
+            <md-table-pagination style="min-height: 60px;font-size: 14px" md-size="5" :md-total="total" md-page="1" md-label="Rows" md-separator="of" :md-page-options="[5, 10, 25, 50]"
                 @pagination="onPagination">
             </md-table-pagination>
         </md-table-card>
@@ -108,6 +108,20 @@
             }
         },
         methods: {
+            chengetable(){
+                console.log('change');
+                this.tableData=[];
+                for(var a=1;a<10;a++){
+                    this.tableData.push({
+                        username: 'asdqweqed3'+a,
+                        calories: 5001+Math.round(Math.random()*100),
+                        comments: 1223,
+                        id: a
+                    })
+                }
+                this.total=this.tableData.length;
+            }
+            ,
             edit(e){
                 this.selectItem=this.tableData[e];
                 this.editform=JSON.parse(JSON.stringify(this.selectItem));
@@ -125,6 +139,9 @@
             },
             onPagination(pagination) {
                 console.log(pagination);
+                if(pagination.page>(this.total/pagegination.size)){
+                    return;
+                }
             },
             getValue(e) {
                 console.log(e);
@@ -163,4 +180,5 @@
 </script>
 
 <style scoped>
+    .content-body{width:98%;margin:1% 1% auto 1%;min-height: 500px;min-width: 800px;max-height: 95%;}
 </style>

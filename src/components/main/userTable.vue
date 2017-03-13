@@ -3,22 +3,22 @@
         <md-table-card class="content-body">
             <md-toolbar>
                 <span class="md-title" textLable>客户列表</span>
-                <md-button class="md-icon-button">
+                <md-button class="md-icon-button md-raised">
                     <md-icon>filter_list</md-icon>
                 </md-button>
-                <md-button class="md-icon-button" @click.native="chengetable()">
+                <md-button class="md-icon-button md-raised" @click.native="chengetable()">
                     <md-icon>search</md-icon>
                 </md-button>
             </md-toolbar>
             <md-table-alternate-header md-selected-label="selected">
-                <md-button class="md-icon-button">
+                <md-button class="md-icon-button md-raised">
                     <md-icon>delete</md-icon>
                 </md-button>
-                <md-button class="md-icon-button">
+                <md-button class="md-icon-button md-raised">
                     <md-icon>more_vert</md-icon>
                 </md-button>
             </md-table-alternate-header>
-            <md-table>
+            <md-table @sort="sort" @select="selectRows">
                 <md-table-header>
                     <md-table-row>
                         <md-table-head md-sort-by="username">
@@ -87,8 +87,8 @@
             </md-dialog-content>
 
             <md-dialog-actions>
-                <md-button class="md-primary" @click.native="close">Cancel</md-button>
-                <md-button class="md-primary" @click.native="save">Save</md-button>
+                <md-button class="md-primary md-raised" textLable  @click.native="close">取消</md-button>
+                <md-button class="md-primary md-raised" textLable @click.native="save">保存</md-button>
             </md-dialog-actions>
         </md-dialog>
         <!--自定义对话框-->
@@ -104,6 +104,7 @@
                 selectItem:{},
                 editform:{},
                 tableData: [],
+                selectData:[],
                 total:100
             }
         },
@@ -139,11 +140,20 @@
             },
             onPagination(pagination) {
                 console.log(pagination);
-                if(pagination.page>(this.total/pagegination.size)){
+                if(pagination.page>(this.total/pagination.size)){
                     return;
                 }
             },
-            getValue(e) {
+            selectRows(e) {
+                var selected=[];
+                for(var a in e){
+                    console.log(a)
+                    selected[a]=e[a];
+                }
+                console.log(selected);
+            },
+            sort(e){
+                // e={name: "username", type: "desc"};
                 console.log(e);
             }
 

@@ -31,10 +31,6 @@ const router = new VueRouter({
   // mode: 'hash',
   base: __dirname, //从根路径访问
   routes: routerConfig, // （缩写）相当于 routes: routes
-  scrollBehavior (to, from, savedPosition) {
-    // return 期望滚动到哪个的位置
-    return { x: 0, y: 0 }
-  },
   linkActiveClass:'active'
 })
 

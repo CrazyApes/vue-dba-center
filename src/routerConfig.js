@@ -15,7 +15,7 @@ export default
       {path:'/content/main',component:index},
       {path:'/content/userTable',component:userTable},
       {path:'/content/addPriceDome',component:addPriceDome},
-      {path:'/content/*',redirect:'/content/main'}
+      {path:'*',redirect:'/content/main'}
       ]
   },
   {path:'*', redirect:'/login'}

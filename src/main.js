@@ -8,7 +8,8 @@ import VueResource from 'vue-resource'
 import VueMaterial from 'vue-material'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-
+import 'animate.css/animate.min.css'
+import _ from 'lodash'
 
 //路由配置
 import routerConfig from './routerConfig'
@@ -17,6 +18,8 @@ import routerConfig from './routerConfig'
 import App from './App'
 //开启debug模式
 Vue.config.debug = true;
+//全局暴露lodash
+window[_]=_;
 
 //注册路由
 Vue.use(VueRouter)

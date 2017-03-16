@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <transition 
-			enter-active-class="animated fadeIn"
-    	leave-active-class="animated fadeOut">
+			enter-active-class="animated fadeIn">
        <router-view></router-view>
     </transition>
   </div>
@@ -24,12 +23,12 @@ export default {
 #app{
 	background-image: url('../static/images/login-bg.jpg');
   position: absolute;
-  min-height: 666px;
   height:100%;
   width:100%; 
   top:0;
   left:0;
   bottom:0;
+  min-height: 640px;min-width: 1024px;
 }
 
 </style>

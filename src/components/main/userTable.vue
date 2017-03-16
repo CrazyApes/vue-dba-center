@@ -190,5 +190,5 @@
 </script>
 
 <style scoped>
-    .content-body{width:98%;margin:1% 1% auto 1%;min-height: 500px;min-width: 800px;max-height: 95%;}
+    .content-body{width:98%;margin:1% 1% auto 1%;max-height: 95%;}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <md-layout md-gutter>
-            <img class="logo" src="../../../static/images/Telsa-Model-X-2012-Model-X-widescreen-03.jpg" alt="logo"/>
+            <img class="logo" src="../../../static/images/logo.jpg" alt="logo"/>
      </md-layout>
   </div>
 </template>

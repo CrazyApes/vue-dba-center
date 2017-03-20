@@ -1,6 +1,6 @@
 <template>
         <div id='mdTree'>
-            <mdTreeNode v-for="(item,index) in items" :node="item" @selected="selectedOne"></mdTreeNode>
+            <mdTreeNode v-for="(item,index) in items" :node="item" ></mdTreeNode>
         </div>
 </template>
 
@@ -11,21 +11,28 @@
         data () {
             return {
                 items:[
-                    {id:1,lv:0,label:"Node One",leaf:false,children:[
-                        {id:2,lv:1,label:"Node tWO",leaf:true},
-                        {id:3,lv:1,label:"Node tWO1",leaf:true},
-                        {id:4,lv:1,label:"Node tWO2",leaf:false,children:[
-                            {id:5,lv:2,label:"Node tWO3",leaf:true},
-                            {id:6,lv:2,label:"Node tWO4",leaf:true}
+                    {id:1,lv:0,label:"Node 1",leaf:false,children:[
+                        {id:2,lv:1,label:"Node 2",leaf:true},
+                        {id:3,lv:1,label:"Node 4",leaf:true},
+                        {id:4,lv:1,label:"Node 3",leaf:false,children:[
+                            {id:5,lv:2,label:"Node 5",leaf:true},
+                            {id:6,lv:2,label:"Node 6",leaf:true}
                         ]}
                     ]}
                 ]
             }
         },
+        mounted () {
+          this.$store.commit('setNode',{});  
+        },
         methods: {
             getChangeNode(value,node){
                 console.log(value,JSON.stringify(node));
-            }
+            },
+            selectedOne(){
+                this.selected=true;
+                this.$store.commit('setNode',this.node);
+            },
         },
         components: {
             'mdTreeNode':mdTreeNode

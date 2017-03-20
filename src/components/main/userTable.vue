@@ -83,7 +83,7 @@
                         <md-input type="text" v-model="editform.comments"></md-input>
                     </md-input-container>
                 </form>
-                
+
             </md-dialog-content>
 
             <md-dialog-actions>
@@ -121,6 +121,12 @@
                     })
                 }
                 this.total=this.tableData.length;
+                this.$http.get('/employees', {param:{page:1,size:5}}).then((response) => {
+                    // 响应成功回调
+                    console.log(response);
+                }, (response) => {
+                    // 响应错误回调
+                });
             }
             ,
             edit(e){

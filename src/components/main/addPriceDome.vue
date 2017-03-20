@@ -4,6 +4,9 @@
             <md-layout md-flex="40" id="treePannel">
                 <md-tree></md-tree>
             </md-layout>
+            <md-layout md-flex="40" id="treePannel">
+                <md-tree></md-tree>
+            </md-layout>
         </md-layout>
     </div>
 </template>

@@ -8,14 +8,18 @@ Vue.use(Vuex)
 需要整个应用的中使用的数据可记录在这里
 */
 const state = {
+    node:{}//树选中的id
 }
 
 /*
-定义所需的 mutations,更改 Vuex 的 store 中的状态的唯一方法是提交 mutation   
+定义所需的 mutations,更改 Vuex 的 store 中的状态的唯一方法是提交 mutation
 store.commit('mutation名字',payload对应参数对象)
 mutations中不要使用异步操作，尽量精简
 */
 const mutations = {
+    setNode(state,node){
+        state.node=node;
+    }
 }
 /*
  Action 类似于 mutation，不同在于：

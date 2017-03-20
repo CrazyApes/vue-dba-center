@@ -1,13 +1,14 @@
 <template>
-    <div class='mdTreeNode'  :style="{ paddingLeft: lvleft+'px'}">
-        <span class="icon-span">
-            <md-icon v-show="!isleaf" @click.native="expandNode" v-html="isexpand">&#xE313;</md-icon>
-        </span>
-        <md-checkbox v-model="checkbox" class="tree-node-checkbox">
-            <label v-html="node.label"></label>
-        </md-checkbox>
-        <div class="tree-node-children" v-show="expandflag">
-            <slot name="childNode"></slot>
+    <div>
+        <div class='mdTreeNode'  :style="{ paddingLeft: lvleft+'px',}" :class="{selected:selected}" @click="expandNode" >
+            <span class="icon-span">
+                <md-icon v-show="!isleaf"  v-html="isexpand">&#xE313;</md-icon>
+            </span>
+
+            <label class="tree-node-label" v-html="node.label"></label>
+        </div>
+        <div class="tree-node-children" v-show="expandflag" v-if="!isleaf">
+               <mdTreeNode v-for="(c,index) in node.children"  :node="c"  ></mdTreeNode>
         </div>
     </div>
 </template>
@@ -19,7 +20,7 @@
             return {
                 checkbox: false,
                 distance: 15,
-                expandflag:Boolean(this.expand)
+                expandflag:Boolean(this.expand)||true
             }
         },
         props: ['node','expand'],
@@ -32,13 +33,18 @@
             },
             lvleft() {
                 return Number(this.node.lv || 0) * this.distance;
+            },
+            selected(){
+                return this.node.id==this.$store.state.node.id?true:false
             }
         },
         methods: {
             expandNode() {
                 if(!this.isleaf){
-                    this.expandflag=!this.expandflag
-                }   
+                    this.expandflag=!this.expandflag;
+                }
+                this.selected=true;
+                this.$store.commit('setNode',this.node);
             }
         }
     }
@@ -50,19 +56,24 @@
         height: 34px;
         line-height: 34px;
     }
-    
+    .mdTreeNode:hover {
+        background: #80CBC4;
+    }
     .icon-span {
         float: left;
         width: 26px;
         height: 26px;
+        cursor: default;
     }
-    
+    .tree-node-label{
+        float: left;
+    }
     .tree-node-checkbox {
         top: -9px;
         margin-left: 8px;
     }
-    
-    .tree-node-children {
-        margin-top: -22px
+    .selected{
+        background:#00897B
     }
+
 </style>

@@ -3,12 +3,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueX from 'vuex'
-import store from './store'
+import index from './store/index'
 import VueResource from 'vue-resource'
 import VueMaterial from 'vue-material'
 import ElementUI from 'element-ui'
+
+//css
 import 'element-ui/lib/theme-default/index.css'
 import 'animate.css/animate.min.css'
+import '../static/fonts/robot.css'
+import '../static/css/icon/icon.css'
+import '../static/css/common.css'
+import '../static/css/nice.css'
+
 import _ from 'lodash'
 
 //路由配置
@@ -39,7 +46,7 @@ const router = new VueRouter({
 
 new Vue({
   router,
-  store,
+  store:index,
   template: '<App/>',
   components: {App}
  // render: h => h(App)

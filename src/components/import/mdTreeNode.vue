@@ -1,15 +1,15 @@
 <template>
     <div>
         <div class='mdTreeNode'  :style="{ paddingLeft: lvleft+'px',}" :class="{selected:selected}" @click="selecteNode" >
-            <span class="icon-span">
+            <span class="icon-span no-select">
                 <md-icon v-show="!isleaf"  v-html="isexpand" @click.native="expandNode">&#xE313;</md-icon>
             </span>
 
             <label class="tree-node-label" v-html="node.label"></label>
         </div>
-        <div class="tree-node-children" v-show="expandflag" v-if="!isleaf">
-               <mdTreeNode v-for="(c,index) in node.children"  :node="c"  ></mdTreeNode>
-        </div>
+            <div class="tree-node-children" v-show="expandflag" v-if="!isleaf">
+                    <mdTreeNode v-for="(c,index) in node.children"  :node="c"  ></mdTreeNode>
+            </div>
     </div>
 </template>
 
@@ -35,13 +35,13 @@
                 return Number(this.node.lv || 0) * this.distance;
             },
             selected(){
-                return (this.node.id&&this.node.id==this.$store.state.node.id)?true:false
+                return (this.node.id&&this.node.id==this.$store.state.tree.node.id)?true:false
             }
         },
         methods: {
             selecteNode(){
                 this.selected=true;
-                this.$store.commit('setNode',this.node);
+                this.$store.tree.commit('setNode',this.node);
             },
             expandNode() {
                 if(!this.isleaf){

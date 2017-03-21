@@ -37,14 +37,13 @@
         components: {
             'mdTreeNode':mdTreeNode
         }
-
     }
 
 </script>
 
 <style scoped>
     #mdTree{
-        width:300px;
+        width:100%;
         margin: 5px;
         padding: 5px;
         border: 1px solid #80CBC4

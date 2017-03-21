@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import treeModule from './modules/tree'
+
 
 Vue.use(Vuex)
 
@@ -8,7 +10,7 @@ Vue.use(Vuex)
 需要整个应用的中使用的数据可记录在这里
 */
 const state = {
-    node:{}//树选中的id
+
 }
 
 /*
@@ -17,9 +19,7 @@ store.commit('mutation名字',payload对应参数对象)
 mutations中不要使用异步操作，尽量精简
 */
 const mutations = {
-    setNode(state,node){
-        state.node=node;
-    }
+
 }
 /*
  Action 类似于 mutation，不同在于：
@@ -27,6 +27,7 @@ const mutations = {
  Action 可以包含任意异步操作  store.dispatch('resetPassport')
 */
 const actions = {
+
 }
 
 /*
@@ -41,8 +42,8 @@ const getters = {
  创建 store 实例,以下每个属性都可以单独提成一个文件
 */
 export default new Vuex.Store({
-    actions,
-    getters,
-    state,
-    mutations
+    
+    modules:{
+        tree: treeModule  //store.state.a // -> moduleA 的状态
+    }
 })

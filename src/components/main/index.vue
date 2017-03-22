@@ -19,7 +19,6 @@ export default {
     },
     mounted () {
         this.fetchData();
-        this.shuffle();
     },
     methods: {
         fetchData(){
@@ -63,6 +62,7 @@ export default {
         height: 100px;
         margin: 20px 20px;
         color: white;
+        cursor: default;
         background:#634598;
         line-height: 100px;
         vertical-align: middle;

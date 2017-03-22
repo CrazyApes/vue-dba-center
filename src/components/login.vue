@@ -16,7 +16,7 @@
                         <md-input type="password" v-model="password"></md-input>
                     </md-input-container>
                     <md-layout md-flex="80" md-flex-offset="20">
-                        <md-button style="width:200px;" @click.native="login()" class="md-raised md-accent">Login</md-button>
+                        <md-button style="width:200px;height:50px" @click.native="login()" class="md-raised md-accent">Login</md-button>
                     </md-layout>
                 </md-layout>
             </md-layout>

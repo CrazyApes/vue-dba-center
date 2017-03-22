@@ -2,7 +2,7 @@
     <div id='userTable' style="display: flex">
         <md-table-card class="content-body">
             <md-toolbar>
-                <span class="md-title" textLable>客户列表</span>
+                <span class="md-title">客户列表</span>
                 <md-button class="md-icon-button md-raised">
                     <md-icon>filter_list</md-icon>
                 </md-button>
@@ -22,10 +22,10 @@
             <md-table @sort="sort" @select="selectRows">
                 <md-table-header>
                     <md-table-row>
-                        <md-table-head md-sort-by="username">
+                        <md-table-head>
                             Username
                         </md-table-head>
-                        <md-table-head md-sort-by="calories" >
+                        <md-table-head>
                             Calories (g)
                         </md-table-head>
                         <md-table-head>
@@ -67,7 +67,7 @@
         </md-table-card>
         <!--表格卡片结束-->
         <md-dialog ref="formDialog" >
-            <md-dialog-title style="width:500px;">Customer Info</md-dialog-title>
+            <md-dialog-title style="width:500px;">Employee Info</md-dialog-title>
 
             <md-dialog-content style="width:400px;margin-left:50px;">
                 <form @submit.prevent="void(0)">

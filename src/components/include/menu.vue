@@ -1,17 +1,17 @@
 <template>
      <div id="menu">
       <md-list>
-        <md-list-item textLable @click.native="turn('/content/main')" >
+        <md-list-item  @click.native="turn('/content/main')" >
           <md-icon class="md-size-1x">home</md-icon>
-          <span textLable>首页</span>
+          <span >首页</span>
         </md-list-item>
         <md-list-item>
           <md-icon>supervisor_account</md-icon>
-          <span textLable>客户管理</span>
+          <span >人员管理</span>
           <md-list-expand>
             <md-list>
               <template v-for="item in menuList">
-                <md-list-item textLable  @click.native="turn(item.path)" class="md-inset">{{item.name}}</md-list-item>
+                <md-list-item   @click.native="turn(item.path)" class="md-inset">{{item.name}}</md-list-item>
               </template>
             </md-list>
           </md-list-expand>
@@ -32,7 +32,11 @@
       },
       methods: {
         fetchData(){
-          this.menuList=[{name:'客户列表',path:'/content/userTable'},{name:'价格模板管理',path:'/content/addPriceDome'}];
+          this.menuList=[
+            {name:'职工列表',path:'/content/employeeTable'},
+            {name:'客户列表',path:'/content/customerTable'},
+            {name:'价格模板',path:'/content/addPriceDome'}
+          ];
         },
         turn(e){
           this.$router.push({path:e});

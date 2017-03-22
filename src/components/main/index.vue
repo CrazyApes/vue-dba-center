@@ -47,13 +47,16 @@ export default {
     }
     #index ul li{
         float:left;
+        transform: scale(1) ;
+        transition: transform .5s;
     }
     #index ul li:hover{
         transform: scale(1.2) ;
         transition: transform .5s;
     }
+
     .flip-list-move {
-        transition: transform 1s;
+        transition: transform .5s;
     }
     .fundation-card{
         width: 100px;

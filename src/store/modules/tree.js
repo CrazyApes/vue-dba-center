@@ -1,4 +1,7 @@
-export const treeModule = {
+/**
+ * 模块级状态管理
+ */
+export default {
   state: {
         node:{}
   },

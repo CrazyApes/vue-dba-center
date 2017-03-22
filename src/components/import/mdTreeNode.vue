@@ -41,7 +41,7 @@
         methods: {
             selecteNode(){
                 this.selected=true;
-                this.$store.tree.commit('setNode',this.node);
+                this.$store.commit('setNode',this.node);
             },
             expandNode() {
                 if(!this.isleaf){

@@ -6,8 +6,9 @@
                 <md-button class="md-icon-button md-raised">
                     <md-icon>filter_list</md-icon>
                 </md-button>
-                <md-button class="md-icon-button md-raised" @click.native="chengetable()">
-                    <md-icon>search</md-icon>
+                <md-button class="md-icon-button md-raised" @click.native="chengetable()" >
+                    <md-icon >search</md-icon>
+                    <md-tooltip md-direction="top">My tooltip</md-tooltip>
                 </md-button>
             </md-toolbar>
             <md-table-alternate-header md-selected-label="selected">
@@ -24,7 +25,7 @@
                         <md-table-head md-sort-by="username">
                             Username
                         </md-table-head>
-                        <md-table-head md-sort-by="calories" md-tooltip="种类的话必须使用数字">
+                        <md-table-head md-sort-by="calories" >
                             Calories (g)
                         </md-table-head>
                         <md-table-head>

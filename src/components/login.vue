@@ -1,9 +1,7 @@
 <template>
     <div id='login'>
         <md-layout md-gutter>
-
             <md-layout md-flex="30" md-flex-offset="35" style="height: 400px;margin-top: 200px;">
-
                 <md-layout md-align="center" md-flex="60" md-flex-offset="20" center>
                         <span class="md-display-2">Headline</span></md-layout>
                 <md-layout md-flex="60" md-flex-offset="20">
@@ -17,15 +15,11 @@
                         <label>Password</label>
                         <md-input type="password" v-model="password"></md-input>
                     </md-input-container>
-                    <md-checkbox v-model="isRemeber" name="isRemeber">Remeber password</md-checkbox>
                     <md-layout md-flex="80" md-flex-offset="20">
                         <md-button style="width:200px;" @click.native="login()" class="md-raised md-accent">Login</md-button>
                     </md-layout>
                 </md-layout>
-               
-
             </md-layout>
-
         </md-layout>
     </div>
 </template>
@@ -44,8 +38,7 @@
             login() {
                 var param = {
                     username: this.username,
-                    password: this.password,
-                    isRemeber: this.isRemeber
+                    password: this.password
                 }
                 console.log(param);
                 this.$router.push({ path: '/content/main' });

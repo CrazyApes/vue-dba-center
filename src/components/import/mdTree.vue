@@ -8,6 +8,7 @@
     import mdTreeNode from './mdTreeNode'
     export default {
         name: 'mdTree',
+        props: ['data'],
         data () {
             return {
                 items:[

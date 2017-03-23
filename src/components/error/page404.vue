@@ -8,7 +8,7 @@
             <div>
                 <span class="md-display-1" style="color:white">Sorry,I can't find the resource</span>
             </div>
-            <md-button  class="md-raised md-primary " @click.native="back" style="margin:20%;width:200px;height:50px">back</md-button>
+            <md-button  class="md-raised md-accent " @click.native="back" style="margin:20%;width:200px;height:50px;"><span>back</span></md-button>
         </div>
     </div>
 </template>

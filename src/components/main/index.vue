@@ -39,7 +39,6 @@ export default {
     #index{
         box-sizing: content-box;
         padding: 20px;
-        background: burlywood;
     }
     #index ul{
         list-style: none;

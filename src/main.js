@@ -10,10 +10,14 @@ import VueMaterial from 'vue-material';
 import ElementUI from 'element-ui';
 import App from './App';
 import 'lodash';
+import 'normalize.css';
 import 'element-ui/lib/theme-default/index.css';
 import 'animate.css/animate.min.css';
 import '../static/fonts/robot.css';
 import '../static/css/icon/icon.css';
+
+// import 'vue-material/dist/vue-material.css'
+
 import '../static/css/common.css';
 import '../static/css/nice.css';
 

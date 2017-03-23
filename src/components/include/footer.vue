@@ -1,8 +1,8 @@
 <template>
     <div id="footer">
-        <div class="footer-text">
+        <div class="footer-text no-select">
                 <md-icon>adb</md-icon>
-                <span class="md-accent">Welcome to adb center,thanks for your trust</span>
+                <span class="md-accent ">Welcome to adb center,thanks for your trust</span>
         </div>
     </div>
 </template>

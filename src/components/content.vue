@@ -31,7 +31,7 @@
     right:0px;
     bottom: 40px;
     overflow: none;
-    background:rgba(98, 63, 181, 0.48)
+    background:#ECEFF1;
 }
 
 </style>

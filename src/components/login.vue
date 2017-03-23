@@ -1,25 +1,22 @@
 <template>
     <div id='login'>
-        <md-layout md-gutter>
-            <md-layout md-flex="30" md-flex-offset="35" style="height: 400px;margin-top: 200px;">
-                <md-layout md-align="center" md-flex="60" md-flex-offset="20" center>
-                        <span class="md-display-2">Headline</span></md-layout>
-                <md-layout md-flex="60" md-flex-offset="20">
+        <md-layout md-gutter md-align="center">
+                <form novalidate @submit.stop.prevent="submit" class="login-form">
+                    <span class="md-display-2 login-title">系统入口</span>
                     <md-input-container>
                         <md-icon>account_circle</md-icon>
-                        <label>Username</label>
+                        <label>用户名</label>
                         <md-input type="text" v-model="username"></md-input>
                     </md-input-container>
                     <md-input-container md-has-password>
                         <md-icon>lock_outline</md-icon>
-                        <label>Password</label>
+                        <label>密码</label>
                         <md-input type="password" v-model="password"></md-input>
                     </md-input-container>
                     <md-layout md-flex="80" md-flex-offset="20">
-                        <md-button style="width:200px;height:50px" @click.native="login()" class="md-raised md-accent">Login</md-button>
+                        <md-button style="width:200px;height:50px;" @click.native="login()" class="md-raised md-accent">Login</md-button>
                     </md-layout>
-                </md-layout>
-            </md-layout>
+                </form>
         </md-layout>
     </div>
 </template>
@@ -54,5 +51,12 @@
         width: 100%;
         top: 0px;
         bottom: 0px;
+    }
+    .login-form{
+        margin-top: 200px;
+        width: 400px;
+        box-sizing: content-box;
+        padding: 50px 50px 40px  ;
+        background:rgba(219, 216, 219, 0.8);
     }
 </style>

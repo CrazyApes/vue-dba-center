@@ -24,7 +24,7 @@
             }
         },
         mounted () {
-          this.$store.commit('setNode',{});  
+          this.$store.commit('setNode',{});
         },
         methods: {
             getChangeNode(value,node){

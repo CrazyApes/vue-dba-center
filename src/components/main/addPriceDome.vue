@@ -9,7 +9,7 @@
                     <span class="md-display-1">表单</span>
                     <md-input-container>
                         <label>模板名称</label>
-                        <md-input type="text"></md-input>
+                        <md-input required type="text"></md-input>
                     </md-input-container>
                     <md-input-container>
                         <label for="movie">Movie</label>
@@ -27,22 +27,24 @@
                         <label>年龄</label>
                         <md-input type="number"></md-input>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container :class="{'md-input-invalid':isPhone}">
                         <md-icon>phone</md-icon>
                         <label>联系电话</label>
-                        <md-input type="tel"></md-input>
+                        <md-input type="tel" v-model="phone"></md-input>
+                        <span class="md-error" v-html="phoneMsg"></span>
                     </md-input-container>
-                    <md-switch  md-theme="orange" name="my-test8">Default</md-switch>
+                    <md-switch v-model="checked8"  name="my-test8">Default</md-switch>
                     <div>
-                        <md-radio v-model="radio3" id="my-test7" name="my-test-group3" md-value="1" class="md-warn">帅哥</md-radio>
-                        <md-radio v-model="radio3" id="my-test8" name="my-test-group3" md-value="2" class="md-warn">美女</md-radio>
+                        <md-radio v-model="radio3"  name="my-test-group3" md-value="1" class="md-primary">帅哥</md-radio>
+                        <md-radio v-model="radio3"  name="my-test-group3" md-value="2" class="md-accent">美女</md-radio>
                     </div>
 
-                    <md-input-container>
+                    <md-input-container class="md-input-invalid">
                         <label>模板备注</label>
                         <md-textarea></md-textarea>
+                        <span class="md-error">Textarea validation message</span>
                     </md-input-container>
-                    <md-button class="md-raised md-accent">SAVe</md-button>
+                    <md-button class="md-raised md-accent">SAVE</md-button>
                 </form>
             </md-layout>
         </md-layout>
@@ -58,8 +60,21 @@
         },
         data() {
             return {
+                phoneMsg:"",
+                phone:'',
                 radio3: "2",
-                movie:""
+                movie:"",
+                checked8:true
+            }
+        },
+        computed: {
+            isPhone(){
+                return Boolean(this.phoneMsg);
+            }
+        },
+        watch: {
+            phone:function(value){
+                this.phoneMsg=value=='0'?"请输入正确的电话号码":"";
             }
         },
         mounted() {

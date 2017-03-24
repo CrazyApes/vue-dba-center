@@ -30,6 +30,9 @@ Vue.use(VueResource);
 Vue.use(VueMaterial);
 Vue.use(ElementUI);
 
+
+
+
 new Vue({
   router,
   store,

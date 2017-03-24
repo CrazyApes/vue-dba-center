@@ -33,7 +33,7 @@
       methods: {
         fetchData(){
           this.menuList=[
-            {name:'职工列表',path:'/content/employeeTable'},
+            {name:'员工列表',path:'/content/employeeTable'},
             {name:'客户列表',path:'/content/customerTable'},
             {name:'价格模板',path:'/content/addPriceDome'}
           ];

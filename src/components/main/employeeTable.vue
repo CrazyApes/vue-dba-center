@@ -2,7 +2,7 @@
     <div id='userTable' style="display: flex">
         <md-table-card class="content-body">
             <md-toolbar>
-                <span class="md-title">职工列表</span>
+                <span class="md-title">员工列表</span>
                 <md-button class="md-icon-button md-raised">
                     <md-icon>filter_list</md-icon>
                 </md-button>
@@ -107,7 +107,6 @@
         },
         methods: {
             chengetable(){
-                console.log('change');
                 this.tableData=[];
                 for(var a=1;a<10;a++){
                     this.tableData.push({
@@ -118,14 +117,13 @@
                     })
                 }
                 this.total=this.tableData.length;
-                this.$http.get('/employees', {param:{page:1,size:5}}).then((response) => {
-                    // 响应成功回调
-                    console.log(response);
-                }, (response) => {
-                    // 响应错误回调
-                });
-            }
-            ,
+                // this.$http.get('/employees', {param:{page:1,size:5}}).then((response) => {
+                //     // 响应成功回调
+                //     console.log(response);
+                // }, (response) => {
+                //     // 响应错误回调
+                // });
+            },
             edit(e){
                 this.selectItem=this.tableData[e];
                 this.editform=JSON.parse(JSON.stringify(this.selectItem));
@@ -150,7 +148,6 @@
             selectRows(e) {
                 var selected=[];
                 for(var a in e){
-                    console.log(a)
                     selected[a]=e[a];
                 }
                 console.log(selected);

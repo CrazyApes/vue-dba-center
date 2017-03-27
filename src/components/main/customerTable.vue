@@ -3,12 +3,12 @@
         <md-table-card class="content-body">
             <md-toolbar>
                 <span class="md-title">客户列表</span>
-                <md-button class="md-icon-button md-raised">
+                <md-button class="md-icon-button md-raised" @click.native="createCustomer()">
                     <md-icon>filter_list</md-icon>
                 </md-button>
                 <md-button class="md-icon-button md-raised" @click.native="chengetable()" >
                     <md-icon >search</md-icon>
-                    <md-tooltip md-direction="top">My tooltip</md-tooltip>
+                    <md-tooltip md-direction="top">查询</md-tooltip>
                 </md-button>
             </md-toolbar>
             <md-table-alternate-header md-selected-label="selected">
@@ -110,6 +110,18 @@
             }
         },
         methods: {
+            createCustomer(){
+                this.$http.post('/api/customers',{
+                    name:"机器人一号",
+                    mobile:"15213433333",
+                    address:"达渝仁按时大大爱迪生是萨达大声道是多少的",
+                    fax:"54623216"
+                }).then((res)=>{
+                    console.log(res)
+                },(res)=>{
+                    console.log(res)
+                });
+            },
             chengetable(){
                 console.log('change');
                 this.tableData=[];
@@ -122,7 +134,7 @@
                     })
                 }
                 this.total=this.tableData.length;
-                this.$http.get('/employees', {param:{page:1,size:5}}).then((response) => {
+                this.$http.get('/api/employees', {param:{page:1,size:5}}).then((response) => {
                     // 响应成功回调
                     console.log(response);
                 }, (response) => {

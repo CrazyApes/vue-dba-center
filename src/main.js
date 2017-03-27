@@ -21,9 +21,6 @@ import '../static/css/icon/icon.css';
 import '../static/css/common.css';
 import '../static/css/nice.css';
 
-//开启debug模式
-Vue.config.debug = true;
-
 Vue.use(VueRouter);
 Vue.use(VueX);
 Vue.use(VueResource);
@@ -31,7 +28,10 @@ Vue.use(VueMaterial);
 Vue.use(ElementUI);
 
 
-
+//开启debug模式
+Vue.config.debug = true;
+// 如果Web服务器无法处理编码为application/json的请求，你可以启用emulateJSON选项。启用该选项后，请求会以application/x-www-form-urlencoded作为MIME type，就像普通的HTML表单一样。
+Vue.http.options.emulateJSON = true;
 
 new Vue({
   router,

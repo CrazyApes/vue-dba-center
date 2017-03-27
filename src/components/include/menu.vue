@@ -8,7 +8,7 @@
         <md-list-item>
           <md-icon>supervisor_account</md-icon>
           <span >人员管理</span>
-          <md-list-expand>
+          <md-list-expand ref="expandList">
             <md-list>
               <template v-for="item in menuList">
                 <md-list-item   @click.native="turn(item.path)" class="md-inset">{{item.name}}</md-list-item>
@@ -52,7 +52,7 @@
     width: 240px;
     left:0;
     bottom:40px;
-    background:rgba(98, 63, 181, 0.48)
+    background: rgb(13, 175, 160);
   }
   
 </style>

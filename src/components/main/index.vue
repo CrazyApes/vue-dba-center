@@ -3,7 +3,7 @@
 
             <span class="md-display-1">模块列表</span><md-button class="md-raised md-accent" @click.native="shuffle()" md-tooltip="随便玩">fun</md-button>
             <transition-group name="flip-list" tag="ul">
-                <li v-for="item in list"  :key="item.name" class="fundation-card">{{item.name}}</li>
+                <li v-for="item in list"  :key="item.name" class="fundation-card" @click="getApi(item.path)">{{item.name}}</li>
             </transition-group>
 
         </div>
@@ -22,14 +22,26 @@ export default {
     },
     methods: {
         fetchData(){
-            for(var i=0;i<15;i++){
-                this.list.push({
-                    name:'用户列表'+i
-                })
-            }
+            this.list=[
+                {name:"客户分页",path:"/customers?page=1&size=1"},
+                {name:"客户信息",path:"/customers/1"},
+                {name:"员工分页",path:"/employees?page=1&size=1"},
+                {name:"员工信息",path:"/employees/1"},
+                {name:"角色分页",path:"/roles?page=1&size=1"}
+                
+            ]
         },
         shuffle(){
             this.list=_.shuffle(this.list);
+        },
+        getApi(path){
+             this.$http.get('/api'+path).then((response) => {
+                    // 响应成功回调
+                    console.log(response);
+                }, (response) => {
+                    // 响应错误回调
+                     console.log("error:"+response);
+                });
         }
     }
 }

@@ -11,19 +11,11 @@
         props: ['data'],
         data () {
             return {
-                items:[
-                    {id:1,lv:0,label:"Node 1",leaf:false,children:[
-                        {id:2,lv:1,label:"Node 2",leaf:true},
-                        {id:3,lv:1,label:"Node 4",leaf:true},
-                        {id:4,lv:1,label:"Node 3",leaf:false,children:[
-                            {id:5,lv:2,label:"Node 5",leaf:true},
-                            {id:6,lv:2,label:"Node 6",leaf:true}
-                        ]}
-                    ]}
-                ]
+                items:[]
             }
         },
         mounted () {
+          this.items=this.data;
           this.$store.commit('setNode',{});
         },
         methods: {

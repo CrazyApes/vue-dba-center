@@ -57,17 +57,12 @@ devMiddleware.waitUntilValid(function () {
 })
 
 
-var target = 'http://'+config.test.env.remoteIp+':'+config.test.env.remotePort;
-//var target = 'http://127.0.0.1:8088';
+var target = "http://127.0.0.1:8000";
+//var target = 'http://127.0.0.1:80188';
 var proxy =  require('http-proxy').createProxyServer({target:target});
 app.use(function(request, response ,next) {
-  if (request.url == '/') {
+  if (request.url.indexOf('/api')==-1) {
     return next();
-  }
-  if (request.url.indexOf('.') > 0) {
-    if (request.url.indexOf('.json') == -1) {
-      return next();
-    }
   }
   proxy.web(request, response);
 });

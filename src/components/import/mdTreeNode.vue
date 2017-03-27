@@ -75,7 +75,8 @@
         margin-left: 8px;
     }
     .selected{
-        background:#00897B
+        background:#00897a;
+        color:white
     }
 
 </style>

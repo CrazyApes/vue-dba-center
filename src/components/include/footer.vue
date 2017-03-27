@@ -18,7 +18,7 @@
         height:40px;
         left:0;
         right:0;
-        background: darkslateblue;
+        background: rgb(13, 175, 160);
         color: navajowhite;
         text-align:center;
         line-height: 40px;

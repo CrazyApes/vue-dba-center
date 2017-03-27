@@ -2,7 +2,7 @@
     <div id='addPriceDome'>
         <md-layout md-gutter class="content-body">
             <md-layout md-flex="20" md-middle-flex="100">
-                <md-tree></md-tree>
+                <md-tree :data="tree"></md-tree>
             </md-layout>
             <md-layout md-flex="30" md-align="center">
                 <form class="domeform" novalidate @submit.stop.prevent="submit">
@@ -56,7 +56,18 @@
     export default {
         name: 'addPriceDome',
         methods: {
-
+            createNode(){
+                this.$http.post("/api/templates/createNode",{param:{
+                    parentId:"1",
+                    customerId:"",
+                    currentLevel:""
+                }}).then((response)=>{
+                    //成功
+                    console.log(response);
+                },(response)=>{
+                    console.log(response);
+                })
+            }
         },
         data() {
             return {
@@ -64,7 +75,17 @@
                 phone:'',
                 radio3: "2",
                 movie:"",
-                checked8:true
+                checked8:true,
+                tree:[
+                    {id:1,lv:0,label:"供应商",leaf:false,children:[
+                        {id:2,lv:1,label:"贴板",leaf:false,children:[
+                            {id:7,lv:2,label:"整套门",leaf:true},
+                            {id:8,lv:2,label:"单面套",leaf:true},
+                            {id:9,lv:2,label:"2面套",leaf:true}
+                        ]},
+                        {id:3,lv:1,label:"贴皮",leaf:true}
+                    ]}
+                ]
             }
         },
         computed: {
@@ -74,7 +95,7 @@
         },
         watch: {
             phone:function(value){
-                this.phoneMsg=value=='0'?"请输入正确的电话号码":"";
+                this.phoneMsg=(value=='0'?"请输入正确的电话号码":"");
             }
         },
         mounted() {

@@ -94,7 +94,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this.subTotal = this.currentPage * this.currentSize;
+        this.subTotal = this.currentPage * this.currentSize > this.mdTotal ? this.mdTotal : sub;
         this.mdPageOptions = this.mdPageOptions || [10, 25, 50, 100];
         this.currentSize = this.mdPageOptions[0];
         this.canFireEvents = true;

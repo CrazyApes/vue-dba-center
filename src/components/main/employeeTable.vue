@@ -14,7 +14,7 @@
                             <label>姓名</label>
                             <md-input type="text" v-model="searchForm.keywords"></md-input>
                     </md-input-container>
-                    <md-button class="md-primary md-raised inline-button" style="font:Robote;">查询</md-button>
+                    <md-button class="md-primary md-raised inline-button">查询</md-button>
             </md-card-header-text>
         </md-card>
         <md-table-card class="content-body">
@@ -128,7 +128,7 @@
                     this.total=response.data.totalElements;
                 }, (response) => {
                     // 响应错误回调
-                    this.$message.info('读取失败')
+                    this.$message.info(response.body);
                     console.log(response);
                 });
             },
@@ -151,9 +151,7 @@
                 console.log(pagination);
                 this.page=pagination.page;
                 this.size=pagination.size;
-                if (pagination.page-1 > (Number(this.total)/Number(pagination.size))) {
-                    return;
-                }else{
+                if (pagination.page*pagination.size <=this.total) {
                     this.fetchData(pagination.page,pagination.size);
                 }
             },
@@ -201,4 +199,5 @@
     .inline-button{
         margin-top:10px;
     }
+    
 </style>

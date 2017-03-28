@@ -39,6 +39,7 @@
         width:100%;
         margin: 5px;
         padding: 5px;
-        border: 1px solid #80CBC4
+        border: 2px groove #3f51b5;
+        border-radius: 3px;
     }
 </style>

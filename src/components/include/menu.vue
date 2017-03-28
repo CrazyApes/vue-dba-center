@@ -52,7 +52,7 @@
     width: 240px;
     left:0;
     bottom:40px;
-    background: rgb(13, 175, 160);
+    background: #303f9f;
   }
   
 </style>

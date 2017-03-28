@@ -1,61 +1,57 @@
 <template>
     <div id='userTable'>
+        <md-card class="content-form">
+             <md-card-header-text>
+                <div class="md-title table-title"><md-icon>&#xE8A3;</md-icon>员工列表</div>
+                    <md-input-container class="inline-select ">
+                            <label for="status">Status</label>
+                            <md-select name="status"  v-model="searchForm.status">
+                            <md-option value="0">在职</md-option>
+                            <md-option value="1">离职</md-option>
+                            </md-select>
+                    </md-input-container>
+                    <md-input-container class="inline-form">
+                            <label>姓名</label>
+                            <md-input type="text" v-model="searchForm.keywords"></md-input>
+                    </md-input-container>
+                    <md-button class="md-primary md-raised inline-button" style="font:Robote;">查询</md-button>
+            </md-card-header-text>
+        </md-card>
         <md-table-card class="content-body">
-            <md-toolbar>
-                <span class="md-title">员工列表</span>
-                <form action="">
-                <md-input-container style="flex: 1 1 0%;">
-                        <label>Username</label>
-                        <md-input type="text" placeholder="11231" v-model="editform.username"></md-input>
-                </md-input-container>
-                </form>
-                
-                <md-button class="md-icon-button md-raised">
-                    <md-icon>filter_list</md-icon>
-                </md-button>
-                <md-button class="md-icon-button md-raised" @click.native="fetchData()">
-                    <md-icon>search</md-icon>
-                </md-button>
-            </md-toolbar>
-            <md-table-alternate-header md-selected-label="selected">
-                <md-button class="md-icon-button md-raised">
-                    <md-icon>delete</md-icon>
-                </md-button>
-                <md-button class="md-icon-button md-raised">
-                    <md-icon>more_vert</md-icon>
-                </md-button>
             </md-table-alternate-header>
-            <md-table @sort="sort" @select="selectRows">
+            <md-table  @select="selectRows">
                 <md-table-header>
                     <md-table-row>
                         <md-table-head>
-                            Username
-                        </md-table-head>
-                        <md-table-head md-tooltip="种类的话必须使用数字">
-                            Calories (g)
+                            姓名
                         </md-table-head>
                         <md-table-head>
-                            <md-icon>message</md-icon>
-                            <span>Comments</span>
+                            roleTitle
                         </md-table-head>
                         <md-table-head>
-                            OrderNum
+                            sex
+                        </md-table-head>
+                        <md-table-head>
+                            status
+                        </md-table-head>
+                        <md-table-head>
+                            操作
                         </md-table-head>
                     </md-table-row>
                 </md-table-header>
                 <md-table-body>
                     <md-table-row v-for="(item,rowIndex) in tableData" :key="rowIndex" :md-item="item" md-selection>
                         <md-table-cell>
-                            {{item.username}}
+                            {{item.name}}
                         </md-table-cell>
                         <md-table-cell>
-                            {{item.calories}}
+                            {{item.role.title}}
                         </md-table-cell>
                         <md-table-cell>
-                            {{item.comments}}
+                            {{item.sex}}
                         </md-table-cell>
                         <md-table-cell>
-                            {{item.id}}
+                            {{item.status}}
                         </md-table-cell>
                         <md-table-cell>
                             <md-layout>
@@ -67,9 +63,9 @@
                     </md-table-row>
                 </md-table-body>
             </md-table>
-            <md-table-pagination style="min-height: 60px;font-size: 14px" md-size="5" :md-total="total" md-page="1" md-label="Rows" md-separator="of"
+            <md-page style="min-height: 60px;font-size: 14px" md-size="5" :md-total="total" md-page="1" md-label="Rows" md-separator="of"
                 :md-page-options="[5, 10, 25, 50]" @pagination="onPagination">
-            </md-table-pagination>
+            </md-page>
         </md-table-card>
         <!--表格卡片结束-->
         <md-dialog ref="formDialog">
@@ -100,36 +96,41 @@
 </template>
 
 <script>
+    import mdPagination from "../import/mdPagination.vue";
     export default {
         name: 'userTable',
-
+        components: {
+            "md-page":mdPagination
+        },
         data() {
             return {
+                searchForm:{
+                    keywords:'',
+                    status:''
+                },
                 selectItem: {},
                 editform: {},
                 tableData: [],
+                size:5,
+                page:1,
                 selectData: [],
-                total: 100
+                total: 8888
             }
         },
         methods: {
-            fetchData(page = 1, size = 5) {
+            fetchData(page = 1, size = this.size) {
                 console.log(page, size);
-                this.$http.get('/api/employees?page=' + page + '&size=' + size).then((response) => {
+                var param={page:page,size:size};
+                this.$http.get('/api/employees',{params:param}).then((response) => {
                     // 响应成功回调
                     console.log(response);
+                    this.tableData=response.data.content;
+                    this.total=response.data.totalElements;
                 }, (response) => {
                     // 响应错误回调
+                    this.$message.info('读取失败')
                     console.log(response);
                 });
-                // this.tableData.push({
-                //         username: 'asdqweqed3'+a,
-                //         calories: 5001+Math.round(Math.random()*100),
-                //         comments: 1223,
-                //         id: a
-                //     })
-                // this.total=this.tableData.length;
-
             },
             edit(e) {
                 this.selectItem = this.tableData[e];
@@ -148,8 +149,12 @@
             },
             onPagination(pagination) {
                 console.log(pagination);
-                if (pagination.page > (this.total / pagination.size)) {
+                this.page=pagination.page;
+                this.size=pagination.size;
+                if (pagination.page-1 > (Number(this.total)/Number(pagination.size))) {
                     return;
+                }else{
+                    this.fetchData(pagination.page,pagination.size);
                 }
             },
             selectRows(e) {
@@ -158,49 +163,42 @@
                     selected[a] = e[a];
                 }
                 console.log(selected);
-            },
-            sort(e) {
-                // e={name: "username", type: "desc"};
-                console.log(e);
             }
-
         },
-        mounted() {
-            this.tableData = [{
-                username: 'asdasdasd3',
-                calories: 5001,
-                comments: 1223,
-                id: 1
-            }, {
-                username: 'asdasdasd2',
-                calories: 5002,
-                comments: 15523,
-                id: 2
-            }, {
-                username: 'asdasdasd1',
-                calories: 5000,
-                comments: 123,
-                id: 3
-            }, {
-                username: 'asdasdasd4',
-                calories: 5000,
-                comments: 12333,
-                id: 4
-            }, {
-                username: 'asdasdasd5',
-                calories: 5000,
-                comments: 12223,
-                id: 6
-            }];
+        created() {
+            this.fetchData();
         }
     }
 
 </script>
 
 <style scoped>
+    .content-form {
+        width: 98%;
+        margin: 1% 1% 1% 1%;
+        height:auto;
+        cursor: default;
+    }
     .content-body {
         width: 98%;
-        margin: 1% 1% auto 1%;
+        margin: 0px 1% auto 1%;
         max-height: 95%;
+    }
+    .table-title{
+        padding: 10px 10px;
+    }
+    .inline-form{
+        width:250px;
+        margin-left:50px;
+        top: -10px;
+        display: inline-block;
+    }
+    .inline-select{
+        width:250px;
+        margin-left:50px;
+        display: inline-block;
+    }
+    .inline-button{
+        margin-top:10px;
     }
 </style>

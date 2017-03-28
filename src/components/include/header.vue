@@ -23,7 +23,7 @@
     right: 0;
     height: 100px;
     box-sizing: border-box;
-    background: rgb(13, 175, 160);
+    background: #3f51b5;
   }
   .user{
     color:white;

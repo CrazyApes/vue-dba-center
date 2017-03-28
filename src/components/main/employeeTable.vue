@@ -51,7 +51,7 @@
                             {{item.sex}}
                         </md-table-cell>
                         <md-table-cell>
-                            {{item.status}}
+                            {{item.status=='ACTIVE'?'在职':'离职'}}
                         </md-table-cell>
                         <md-table-cell>
                             <md-layout>
@@ -174,7 +174,7 @@
     .content-form {
         width: 98%;
         margin: 1% 1% 1% 1%;
-        height:auto;
+        height:140PX;
         cursor: default;
     }
     .content-body {

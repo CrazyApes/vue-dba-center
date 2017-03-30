@@ -2,45 +2,36 @@
     <div id='userTable'>
         <md-card class="content-form">
              <md-card-header-text>
-                <div class="md-title table-title"><md-icon>&#xE8A3;</md-icon>员工列表</div>
+                <div class="md-title table-title">员工列表</div>
                     <md-input-container class="inline-select ">
-                            <label for="status">Status</label>
-                            <md-select name="status"  v-model="searchForm.status">
-                            <md-option value="0">在职</md-option>
-                            <md-option value="1">离职</md-option>
+                            <label for="status">员工状态</label>
+                            <md-select name="status"  v-model="searchform.status">
+                            <md-option value="">所有</md-option>
+                            <md-option value="ACTIVE">在职</md-option>
+                            <md-option value="INACTIVE">离职</md-option>
                             </md-select>
                     </md-input-container>
                     <md-input-container class="inline-form">
                             <label>姓名</label>
-                            <md-input type="text" v-model="searchForm.keywords"></md-input>
+                            <md-input type="text" name="keywords" v-model="searchform.keywords" @keypress.native.enter="search()"></md-input>
                     </md-input-container>
-                    <md-button class="md-primary md-raised inline-button">查询</md-button>
+                    <md-button class="md-primary md-raised inline-button" @click.native="search()">查询</md-button>
             </md-card-header-text>
         </md-card>
         <md-table-card class="content-body">
             </md-table-alternate-header>
-            <md-table  @select="selectRows">
+            <md-table>
                 <md-table-header>
                     <md-table-row>
-                        <md-table-head>
-                            姓名
-                        </md-table-head>
-                        <md-table-head>
-                            roleTitle
-                        </md-table-head>
-                        <md-table-head>
-                            sex
-                        </md-table-head>
-                        <md-table-head>
-                            status
-                        </md-table-head>
-                        <md-table-head>
-                            操作
-                        </md-table-head>
+                        <md-table-head>姓名</md-table-head>
+                        <md-table-head>职责</md-table-head>
+                        <md-table-head>性别</md-table-head>
+                        <md-table-head>员工状态</md-table-head>
+                        <md-table-head>操作</md-table-head>
                     </md-table-row>
                 </md-table-header>
                 <md-table-body>
-                    <md-table-row v-for="(item,rowIndex) in tableData" :key="rowIndex" :md-item="item" md-selection>
+                    <md-table-row v-for="(item,rowIndex) in tableData" :key="rowIndex" :md-item="item" >
                         <md-table-cell>
                             {{item.name}}
                         </md-table-cell>
@@ -58,18 +49,23 @@
                                 <md-button class="md-icon-button md-raised" @click.native="edit(rowIndex)">
                                     <md-icon>edit</md-icon>
                                 </md-button>
+                                <md-button class="md-icon-button md-raised" @click.native="delete(rowIndex)">
+                                    <md-icon>delete</md-icon>
+                                </md-button>
                             </md-layout>
                         </md-table-cell>
                     </md-table-row>
                 </md-table-body>
             </md-table>
-            <md-page style="min-height: 60px;font-size: 14px" md-size="5" :md-total="total" md-page="1" md-label="Rows" md-separator="of"
+            <md-page style="min-height: 60px;font-size: 14px" md-size="5" :md-total="total" :md-page="page" md-label="Rows" md-separator="of"
                 :md-page-options="[5, 10, 25, 50]" @pagination="onPagination">
             </md-page>
         </md-table-card>
         <!--表格卡片结束-->
         <md-dialog ref="formDialog">
-            <md-dialog-title style="width:500px;">Customer Info</md-dialog-title>
+            <md-dialog-title style="width:500px;">
+                <span class="md-title" style="font-size: 24px;font-weight: 400;">  员工信息  </span>
+            </md-dialog-title>
             <md-dialog-content style="width:400px;margin-left:50px;">
                 <form @submit.prevent="void(0)">
                     <md-input-container>
@@ -87,11 +83,16 @@
                 </form>
             </md-dialog-content>
             <md-dialog-actions>
+                <md-button class="md-primary md-raised" @click.native="save">Save</md-button>
                 <md-button class="md-primary " @click.native="close">Cancel</md-button>
-                <md-button class="md-primary " @click.native="save">Save</md-button>
             </md-dialog-actions>
         </md-dialog>
-        <!--自定义对话框-->
+        <!--自定义对话框结束-->
+        <md-snackbar  ref="snackbar" >
+            <span v-html="message"></span>
+            <md-button class="md-accent md-raised"  @click.native="$refs.snackbar.close()">close</md-button>
+        </md-snackbar>
+        <!--自定义snackbar结束-->
     </div>
 </template>
 
@@ -104,42 +105,58 @@
         },
         data() {
             return {
-                searchForm:{
+                searchform:{
                     keywords:'',
                     status:''
                 },
+                pageform:{},
+                checkbox:true,
                 selectItem: {},
-                editform: {},
+                editform: {
+                    username:''
+
+                },
                 tableData: [],
                 size:5,
                 page:1,
-                selectData: [],
-                total: 8888
+                total: 0,
+                message:'',
             }
         },
         methods: {
-            fetchData(page = 1, size = this.size) {
-                console.log(page, size);
-                var param={page:page,size:size};
+            search(){
+                let param={};
+                if(this.searchform.status!=""){
+                    param.status=this.searchform.status;
+                }
+                if(this.searchform.keywords!=''){
+                    param.keywords=this.searchform.keywords;
+                }
+                this.pageform=param;
+                this.fetchData();
+            },
+            fetchData(page = 1, size = this.size,params=this.pageform) {
+                console.log(page, size,params);
+                this.page=page;
+                let param={};
+                if(params&&params.length==0){
+                    param={page:page,size:size};
+                }else{
+                    param={page:page,size:size,...params};
+                }
                 this.$http.get('/api/employees',{params:param}).then((response) => {
-                    // 响应成功回调
-                    console.log(response);
                     this.tableData=response.data.content;
                     this.total=response.data.totalElements;
                 }, (response) => {
-                    // 响应错误回调
-                    this.$message.info(response.body);
-                    console.log(response);
+                    this.sendMessage(response.body);
                 });
             },
             edit(e) {
-                this.selectItem = this.tableData[e];
-                this.editform = JSON.parse(JSON.stringify(this.selectItem));
+                this.editform = this.tableData[e];
                 this.$refs['formDialog'].open();
             },
             save() {
                 console.log(this.editform);
-                this.selectItem = this.editform;
                 this.$refs['formDialog'].close();
             },
             close(e) {
@@ -148,22 +165,16 @@
                 }
             },
             onPagination(pagination) {
-                console.log(pagination);
                 this.page=pagination.page;
                 this.size=pagination.size;
-                if (pagination.page*pagination.size <=this.total) {
-                    this.fetchData(pagination.page,pagination.size);
-                }
+                this.fetchData(pagination.page,pagination.size);
             },
-            selectRows(e) {
-                var selected = [];
-                for (var a in e) {
-                    selected[a] = e[a];
-                }
-                console.log(selected);
+            sendMessage(message){
+                this.message=message;
+                this.$refs.snackbar.open();
             }
         },
-        created() {
+        mounted() {
             this.fetchData();
         }
     }

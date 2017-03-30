@@ -55,8 +55,15 @@
       lastPage() {
         return false;
       },
-      shouldDisable() {
-        return this.currentSize * this.currentPage >= this.totalItems;
+      shouldDisable(){
+        return (this.currentSize*this.currentPage)>=this.totalItems;
+      }
+    },
+    watch: {
+      mdTotal:function(v){
+        this.totalItems=isNaN(this.mdTotal) ? Number.MAX_SAFE_INTEGER : parseInt(this.mdTotal, 10);
+        const sub=this.currentPage * this.currentSize;
+        this.subTotal = sub > this.mdTotal ? this.mdTotal : sub;
       }
     },
     methods: {
@@ -94,7 +101,8 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this.subTotal = this.currentPage * this.currentSize > this.mdTotal ? this.mdTotal : sub;
+        const sub=this.currentPage * this.currentSize;
+        this.subTotal = sub > this.mdTotal ? this.mdTotal : sub;
         this.mdPageOptions = this.mdPageOptions || [10, 25, 50, 100];
         this.currentSize = this.mdPageOptions[0];
         this.canFireEvents = true;

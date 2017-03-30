@@ -18,8 +18,7 @@ export default
       {path:'/content/main',component:index},
       {path:'/content/customerTable',component:customerTable},
       {path:'/content/employeeTable',component:employeeTable},
-      {path:'/content/addPriceDome',component:addPriceDome},
-      {path:'/content',redirect:'/content/main'}
+      {path:'/content/addPriceDome',component:addPriceDome}
       ]
   },
   {path:'', redirect:'/login'},

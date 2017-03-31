@@ -11,7 +11,7 @@
                     <md-input-container md-has-password>
                         <md-icon>lock_outline</md-icon>
                         <label>密码</label>
-                        <md-input type="password" v-model="password" @keypress.native.enter="search()"></md-input>
+                        <md-input type="password" v-model="password" @keypress.native.enter="login()"></md-input>
                     </md-input-container>
                     <md-layout md-flex="80" md-flex-offset="20">
                         <md-button style="width:200px;height:50px;" @click.native="login()" class="md-raised md-accent">Login</md-button>

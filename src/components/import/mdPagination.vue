@@ -60,9 +60,17 @@
       }
     },
     watch: {
+      mdSize:function(v){
+        this.currentSize=parseInt(v, 10);
+      },
       mdTotal:function(v){
         this.totalItems=isNaN(this.mdTotal) ? Number.MAX_SAFE_INTEGER : parseInt(this.mdTotal, 10);
         const sub=this.currentPage * this.currentSize;
+        this.subTotal = sub > this.mdTotal ? this.mdTotal : sub;
+      },
+      mdPage:function(v){
+        this.currentPage=parseInt(v, 10);
+        const sub=v * this.currentSize;
         this.subTotal = sub > this.mdTotal ? this.mdTotal : sub;
       }
     },
@@ -70,7 +78,6 @@
       emitPaginationEvent() {
         if (this.canFireEvents) {
           const sub = this.currentPage * this.currentSize;
-
           this.subTotal = sub > this.mdTotal ? this.mdTotal : sub;
           this.$emit('pagination', {
             size: this.currentSize,

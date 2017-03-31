@@ -1,21 +1,22 @@
 <template>
     <div id='userTable'>
         <md-card class="content-form">
-             <md-card-header-text>
+            <md-card-header-text>
                 <div class="md-title table-title">员工列表</div>
-                    <md-input-container class="inline-select ">
-                            <label for="status">员工状态</label>
-                            <md-select name="status"  v-model="searchform.status">
-                            <md-option value="">所有</md-option>
-                            <md-option value="ACTIVE">在职</md-option>
-                            <md-option value="INACTIVE">离职</md-option>
-                            </md-select>
-                    </md-input-container>
-                    <md-input-container class="inline-form">
-                            <label>姓名</label>
-                            <md-input type="text" name="keywords" v-model="searchform.keywords" @keypress.native.enter="search()"></md-input>
-                    </md-input-container>
-                    <md-button class="md-primary md-raised inline-button" @click.native="search()">查询</md-button>
+                <md-input-container class="inline-select ">
+                    <label for="status">员工状态</label>
+                    <md-select name="status" v-model="searchform.status">
+                        <md-option value="">所有</md-option>
+                        <md-option value="ACTIVE">在职</md-option>
+                        <md-option value="INACTIVE">离职</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="inline-form">
+                    <label>姓名</label>
+                    <md-input type="text" name="keywords" v-model="searchform.keywords" @keypress.native.enter="search()"></md-input>
+                </md-input-container>
+                <md-button class="md-primary md-raised inline-button" @click.native="search()">search</md-button>
+                <md-button class="md-accent md-raised inline-button" @click.native="add()">create employee</md-button>
             </md-card-header-text>
         </md-card>
         <md-table-card class="content-body">
@@ -31,7 +32,7 @@
                     </md-table-row>
                 </md-table-header>
                 <md-table-body>
-                    <md-table-row v-for="(item,rowIndex) in tableData" :key="rowIndex" :md-item="item" >
+                    <md-table-row v-for="(item,rowIndex) in tableData" :key="rowIndex" :md-item="item">
                         <md-table-cell>
                             {{item.name}}
                         </md-table-cell>
@@ -46,10 +47,10 @@
                         </md-table-cell>
                         <md-table-cell>
                             <md-layout>
-                                <md-button class="md-icon-button md-raised" @click.native="edit(rowIndex)">
+                                <md-button class="md-icon-button md-raised" @click.native="edit(item)">
                                     <md-icon>edit</md-icon>
                                 </md-button>
-                                <md-button class="md-icon-button md-raised" @click.native="delete(rowIndex)">
+                                <md-button class="md-icon-button md-raised" @click.native="del(item)">
                                     <md-icon>delete</md-icon>
                                 </md-button>
                             </md-layout>
@@ -57,7 +58,7 @@
                     </md-table-row>
                 </md-table-body>
             </md-table>
-            <md-page style="min-height: 60px;font-size: 14px" md-size="5" :md-total="total" :md-page="page" md-label="Rows" md-separator="of"
+            <md-page style="min-height: 60px;font-size: 14px" :md-size="size" :md-total="total" :md-page="page" md-label="Rows" md-separator="of"
                 :md-page-options="[5, 10, 25, 50]" @pagination="onPagination">
             </md-page>
         </md-table-card>
@@ -67,30 +68,59 @@
                 <span class="md-title" style="font-size: 24px;font-weight: 400;">  员工信息  </span>
             </md-dialog-title>
             <md-dialog-content style="width:400px;margin-left:50px;">
-                <form @submit.prevent="void(0)">
+                <form @submit.prevent="void(0)" ref="aform" v-show="addFlag">
                     <md-input-container>
-                        <label>Username</label>
-                        <md-input type="text" v-model="editform.username"></md-input>
+                        <label>用户名</label>
+                        <md-input type="text" name="ausername" v-model="addform.username"></md-input>
                     </md-input-container>
                     <md-input-container>
-                        <label>Calories</label>
-                        <md-input type="text" v-model="editform.calories"></md-input>
+                        <label>密码</label>
+                        <md-input type="text" name="apassword" v-model="addform.password"></md-input>
                     </md-input-container>
                     <md-input-container>
-                        <label>Comments</label>
-                        <md-input type="text" v-model="editform.comments"></md-input>
+                        <label>姓名</label>
+                        <md-input type="text" name="aname" v-model="addform.name"></md-input>
                     </md-input-container>
+                </form>
+                <form @submit.prevent="void(0)" ref="dform" v-show="!addFlag">
+                    <md-input-container>
+                        <label>姓名</label>
+                        <md-input type="text" name="dname" v-model="editform.name"></md-input>
+                    </md-input-container>
+
+                    <md-input-container>
+                        <label for="dsex">性别</label>
+                        <md-select name="dsex" v-model="editform.sex">
+                            <md-option value="MALE">男</md-option>
+                            <md-option value="FEMELE">女</md-option>
+                            <md-option value="SECRET">保密</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label for="dstatus">员工状态</label>
+                        <md-select name="dstatus" v-model="editform.status">
+                            <md-option value="ACTIVE">在职</md-option>
+                            <md-option value="INACTIVE">离职</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-switch v-model="editPassword" name="edpassword">是否修改密码</md-switch>
+                    <transition enter-active-class="animated bounceIn">
+                        <md-input-container v-show="editPassword">
+                            <label>密码</label>
+                            <md-input type="text" name="dpassword" v-model="editform.password"></md-input>
+                        </md-input-container>
+                    </transition>
                 </form>
             </md-dialog-content>
             <md-dialog-actions>
                 <md-button class="md-primary md-raised" @click.native="save">Save</md-button>
-                <md-button class="md-primary " @click.native="close">Cancel</md-button>
+                <md-button class="md-primary " @click.native="$refs['formDialog'].close()">Cancel</md-button>
             </md-dialog-actions>
         </md-dialog>
         <!--自定义对话框结束-->
-        <md-snackbar  ref="snackbar" >
+        <md-snackbar ref="snackbar">
             <span v-html="message"></span>
-            <md-button class="md-accent md-raised"  @click.native="$refs.snackbar.close()">close</md-button>
+            <md-button class="md-accent md-raised" @click.native="$refs.snackbar.close()">close</md-button>
         </md-snackbar>
         <!--自定义snackbar结束-->
     </div>
@@ -101,78 +131,115 @@
     export default {
         name: 'userTable',
         components: {
-            "md-page":mdPagination
+            "md-page": mdPagination
         },
         data() {
             return {
-                searchform:{
-                    keywords:'',
-                    status:''
+                searchform: {
+                    keywords: '',
+                    status: ''
                 },
-                pageform:{},
-                checkbox:true,
-                selectItem: {},
+                addFlag: false,
+                editPassword: false,
                 editform: {
-                    username:''
-
+                    username: '',
+                    password: '',
+                    name: ''
+                },
+                addform: {
+                    username: '',
+                    password: '',
+                    name: ''
                 },
                 tableData: [],
-                size:5,
-                page:1,
+                size: 5,
+                page: 1,
                 total: 0,
-                message:'',
+
+
+                pageform: {},
+                message: '',//消息snake
             }
         },
         methods: {
-            search(){
-                let param={};
-                if(this.searchform.status!=""){
-                    param.status=this.searchform.status;
+            del(e) {
+                if (confirm('确认删除员工：' + e.name)) {
+                    this.$http.delete('/api/employees/' + e.id).then(response => {
+                        this.fetchData(this.page, this.size);
+                        this.sendMessage('员工：' + e.name + '&emsp;已经删除!');
+                    }, response => {
+                        this.sendMessage(response.body);
+                    })
                 }
-                if(this.searchform.keywords!=''){
-                    param.keywords=this.searchform.keywords;
-                }
-                this.pageform=param;
-                this.fetchData();
             },
-            fetchData(page = 1, size = this.size,params=this.pageform) {
-                console.log(page, size,params);
-                this.page=page;
-                let param={};
-                if(params&&params.length==0){
-                    param={page:page,size:size};
-                }else{
-                    param={page:page,size:size,...params};
-                }
-                this.$http.get('/api/employees',{params:param}).then((response) => {
-                    this.tableData=response.data.content;
-                    this.total=response.data.totalElements;
-                }, (response) => {
-                    this.sendMessage(response.body);
-                });
+            add() {
+                this.addFlag = true;
+                this.addform = {};
+                this.$refs['aform'].reset();
+                this.$refs['formDialog'].open();
             },
             edit(e) {
-                this.editform = this.tableData[e];
+                this.addFlag = false;
+                this.$refs['dform'].reset();
+                this.editform = JSON.parse(JSON.stringify(e));
                 this.$refs['formDialog'].open();
             },
             save() {
-                console.log(this.editform);
-                this.$refs['formDialog'].close();
-            },
-            close(e) {
-                if (e) {
-                    this.$refs['formDialog'].close();
+                let form =this.addFlag?this.addform:this.editform;
+                if (!form.id) {
+                    this.$http.post('/api/employees', { roleId: 1, ...form }).then(response => {
+                        this.sendMessage('新员工：' + form.name + '&emsp;已经录入系统!');
+                        this.$refs['formDialog'].close();
+                        this.fetchData(this.page, this.size);
+                    }, response => {
+                        this.sendMessage(response.body);
+                    })
+                }else{
+                    this.$http.put('/api/employees', { roleId: 1, ...form }).then(response => {
+                        this.sendMessage('员工：' + form.name + '&emsp;已经完成修改!');
+                        this.$refs['formDialog'].close();
+                        this.fetchData(this.page, this.size);
+                    }, response => {
+                        this.sendMessage(response.body);
+                    })
                 }
             },
             onPagination(pagination) {
-                this.page=pagination.page;
-                this.size=pagination.size;
-                this.fetchData(pagination.page,pagination.size);
+                this.page = pagination.page;
+                this.size = pagination.size;
+                this.fetchData(pagination.page, pagination.size);
             },
-            sendMessage(message){
-                this.message=message;
+            sendMessage(message) {
+                this.message = message;
                 this.$refs.snackbar.open();
-            }
+            },
+            search() {
+                let param = {};
+                if (this.searchform.status != "") {
+                    param.status = this.searchform.status;
+                }
+                if (this.searchform.keywords != '') {
+                    param.keywords = this.searchform.keywords;
+                }
+                this.pageform = param;
+                this.fetchData();
+            },
+            fetchData(page = 1, size = this.size, params = this.pageform) {
+                console.log(page);
+                this.page = page;
+                let param = {};
+                if (params && params.length == 0) {
+                    param = { page: page, size: size };
+                } else {
+                    param = { page: page, size: size, ...params };
+                }
+                this.$http.get('/api/employees', { params: param }).then(response => {
+                    this.tableData = response.data.content;
+                    this.total = response.data.totalElements;
+                }, response => {
+                    this.sendMessage(response.body);
+                });
+            },
         },
         mounted() {
             this.fetchData();
@@ -185,30 +252,34 @@
     .content-form {
         width: 98%;
         margin: 1% 1% 1% 1%;
-        height:140PX;
+        height: 140PX;
         cursor: default;
     }
+    
     .content-body {
         width: 98%;
         margin: 0px 1% auto 1%;
         max-height: 95%;
     }
-    .table-title{
+    
+    .table-title {
         padding: 10px 10px;
     }
-    .inline-form{
-        width:250px;
-        margin-left:50px;
+    
+    .inline-form {
+        width: 250px;
+        margin-left: 50px;
         top: -10px;
         display: inline-block;
     }
-    .inline-select{
-        width:250px;
-        margin-left:50px;
+    
+    .inline-select {
+        width: 250px;
+        margin-left: 50px;
         display: inline-block;
     }
-    .inline-button{
-        margin-top:10px;
-    }
     
+    .inline-button {
+        margin-top: 10px;
+    }
 </style>

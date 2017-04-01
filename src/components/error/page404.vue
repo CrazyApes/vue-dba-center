@@ -16,14 +16,8 @@
 <script>
     export default {
         name: 'page404',
-        data() {
-            return {
-
-            }
-        },
         methods: {
             back(){
-                //  this.$router.push({path:'/login'});
                 this.$router.go(-1);
             }
         }   

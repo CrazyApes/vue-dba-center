@@ -18,7 +18,10 @@
                     </md-layout>
                 </form>
         </md-layout>
-
+        <md-snackbar ref="snackbar">
+            <span v-html="message"></span>
+            <md-button class="md-accent md-raised" @click.native="$refs.snackbar.close()">close</md-button>
+        </md-snackbar>
     </div>
 </template>
 
@@ -28,7 +31,8 @@
         data() {
             return {
                 username: '',
-                password: ''
+                password: '',
+                message:''
             }
         },
         mounted () {
@@ -40,9 +44,15 @@
                     username: this.username,
                     password: this.password
                 }
-                console.log(param);
-                this.$http.post('')
                 this.$router.push({ path: '/content/main' });
+                // this.$http.post('/api/tokens',param).then(response=>{
+                //   this.$store.commit('emp',response.data);
+                //   this.$router.push({ path: '/content/main' });
+                // }, response=>{
+                //   this.message=response.body;
+                //   this.$refs.snackbar.open();
+                // })
+
             }
         }
     }
@@ -64,6 +74,9 @@
         padding: 50px 50px 40px  50px;
         background:rgba(219, 216, 219, 0.8);
         z-index: 2
+    }
+    .login-title{
+        margin-bottom: 30px;
     }
     .flip-list-move {
         animation:  movehappy 3s;

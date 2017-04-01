@@ -12,6 +12,8 @@ Vue.use(Vuex)
 需要整个应用的中使用的数据可记录在这里
 */
 const state = {
+  emp:{}
+
 }
 
 /*
@@ -20,6 +22,9 @@ store.commit('mutation名字',payload对应参数对象)
 mutations中不要使用异步操作，尽量精简
 */
 const mutations = {
+  emp(state,emp){
+    state.emp=emp;
+  }
 }
 /*
  Action 提交的是 mutation，而不是直接变更状态。

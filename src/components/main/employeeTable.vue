@@ -3,6 +3,9 @@
         <md-card class="content-form">
             <md-card-header-text>
                 <div class="md-title table-title">员工列表</div>
+            </md-card-header-text>
+            <md-card-content>
+                <form @submit.prevent="void(0)">
                 <md-input-container class="inline-select ">
                     <label for="status">员工状态</label>
                     <md-select name="status" v-model="searchform.status">
@@ -17,7 +20,8 @@
                 </md-input-container>
                 <md-button class="md-primary md-raised inline-button" @click.native="search()">search</md-button>
                 <md-button class="md-accent md-raised inline-button" @click.native="add()">create employee</md-button>
-            </md-card-header-text>
+                </form>
+            </md-card-content>
         </md-card>
         <md-table-card class="content-body">
             </md-table-alternate-header>
@@ -87,7 +91,6 @@
                         <label>姓名</label>
                         <md-input type="text" name="dname" v-model="editform.name"></md-input>
                     </md-input-container>
-
                     <md-input-container>
                         <label for="dsex">性别</label>
                         <md-select name="dsex" v-model="editform.sex">
@@ -141,11 +144,7 @@
                 },
                 addFlag: false,
                 editPassword: false,
-                editform: {
-                    username: '',
-                    password: '',
-                    name: ''
-                },
+                editform: {},
                 addform: {
                     username: '',
                     password: '',
@@ -180,12 +179,13 @@
             },
             edit(e) {
                 this.addFlag = false;
-                this.$refs['dform'].reset();
-                this.editform = JSON.parse(JSON.stringify(e));
+                this.editform ={};
+                this.editform =Object.assign({},e);
                 this.$refs['formDialog'].open();
             },
             save() {
                 let form =this.addFlag?this.addform:this.editform;
+                console.log(form);
                 if (!form.id) {
                     this.$http.post('/api/employees', { roleId: 1, ...form }).then(response => {
                         this.sendMessage('新员工：' + form.name + '&emsp;已经录入系统!');
@@ -195,7 +195,14 @@
                         this.sendMessage(response.body);
                     })
                 }else{
-                    this.$http.put('/api/employees', { roleId: 1, ...form }).then(response => {
+                    let param={
+                        name:form.name,
+                        id:form.id,
+                        status:form.status,
+                        sex:form.sex
+                    };
+                    if(this.editPassword)param.password=form.password
+                    this.$http.put('/api/employees', { roleId: 1, ...param}).then(response => {
                         this.sendMessage('员工：' + form.name + '&emsp;已经完成修改!');
                         this.$refs['formDialog'].close();
                         this.fetchData(this.page, this.size);
@@ -225,7 +232,6 @@
                 this.fetchData();
             },
             fetchData(page = 1, size = this.size, params = this.pageform) {
-                console.log(page);
                 this.page = page;
                 let param = {};
                 if (params && params.length == 0) {
@@ -252,7 +258,7 @@
     .content-form {
         width: 98%;
         margin: 1% 1% 1% 1%;
-        height: 140PX;
+        height:140px;
         cursor: default;
     }
     

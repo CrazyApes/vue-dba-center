@@ -35,10 +35,10 @@ export default {
             this.list=_.shuffle(this.list);
         },
         getApi(path){
-             this.$http.get('/api'+path).then((response) => {
+             this.$http.get('/api'+path).then(response => {
                     // 响应成功回调
                     console.log(response);
-                }, (response) => {
+                }, response => {
                     // 响应错误回调
                      console.log("error:"+response);
                 });

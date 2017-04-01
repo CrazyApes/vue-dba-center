@@ -57,14 +57,14 @@
         name: 'addPriceDome',
         methods: {
             createNode(){
-                this.$http.post("/api/templates/createNode",{param:{
-                    parentId:"1",
-                    customerId:"",
+                this.$http.post("/api/templates/createNode",{
+                    parentId:0,
+                    customerId:"1",
                     currentLevel:""
-                }}).then((response)=>{
+                }).then(response=>{
                     //成功
                     console.log(response);
-                },(response)=>{
+                },response=>{
                     console.log(response);
                 })
             }

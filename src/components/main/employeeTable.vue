@@ -6,20 +6,20 @@
             </md-card-header-text>
             <md-card-content>
                 <form @submit.prevent="void(0)">
-                <md-input-container class="inline-select ">
-                    <label for="status">员工状态</label>
-                    <md-select name="status" v-model="searchform.status">
-                        <md-option value="">所有</md-option>
-                        <md-option value="ACTIVE">在职</md-option>
-                        <md-option value="INACTIVE">离职</md-option>
-                    </md-select>
-                </md-input-container>
-                <md-input-container class="inline-form">
-                    <label>姓名</label>
-                    <md-input type="text" name="keywords" v-model="searchform.keywords" @keypress.native.enter="search()"></md-input>
-                </md-input-container>
-                <md-button class="md-primary md-raised inline-button" @click.native="search()">search</md-button>
-                <md-button class="md-accent md-raised inline-button" @click.native="add()">create employee</md-button>
+                    <md-input-container class="inline-select ">
+                        <label for="status">员工状态</label>
+                        <md-select name="status" v-model="searchform.status">
+                            <md-option value="">所有</md-option>
+                            <md-option value="ACTIVE">在职</md-option>
+                            <md-option value="INACTIVE">离职</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="inline-form">
+                        <label>姓名</label>
+                        <md-input type="text" name="keywords" v-model="searchform.keywords" @keypress.native.enter="search()"></md-input>
+                    </md-input-container>
+                    <md-button class="md-primary md-raised inline-button" @click.native="search()">search</md-button>
+                    <md-button class="md-accent md-raised inline-button" @click.native="add()">create employee</md-button>
                 </form>
             </md-card-content>
         </md-card>
@@ -95,7 +95,7 @@
                         <label for="dsex">性别</label>
                         <md-select name="dsex" v-model="editform.sex">
                             <md-option value="MALE">男</md-option>
-                            <md-option value="FEMELE">女</md-option>
+                            <md-option value="FEMALE">女</md-option>
                             <md-option value="SECRET">保密</md-option>
                         </md-select>
                     </md-input-container>
@@ -131,6 +131,7 @@
 
 <script>
     import mdPagination from "../import/mdPagination.vue";
+
     export default {
         name: 'userTable',
         components: {
@@ -179,13 +180,11 @@
             },
             edit(e) {
                 this.addFlag = false;
-                this.editform ={};
-                this.editform =Object.assign({},e);
+                this.editform = Object.assign({}, e);
                 this.$refs['formDialog'].open();
             },
             save() {
-                let form =this.addFlag?this.addform:this.editform;
-                console.log(form);
+                let form = this.addFlag ? this.addform : this.editform;
                 if (!form.id) {
                     this.$http.post('/api/employees', { roleId: 1, ...form }).then(response => {
                         this.sendMessage('新员工：' + form.name + '&emsp;已经录入系统!');
@@ -194,15 +193,15 @@
                     }, response => {
                         this.sendMessage(response.body);
                     })
-                }else{
-                    let param={
-                        name:form.name,
-                        id:form.id,
-                        status:form.status,
-                        sex:form.sex
+                } else {
+                    let param = {
+                        name: form.name,
+                        id: form.id,
+                        status: form.status,
+                        sex: form.sex
                     };
-                    if(this.editPassword)param.password=form.password
-                    this.$http.put('/api/employees', { roleId: 1, ...param}).then(response => {
+                    if (this.editPassword) param.password = form.password;
+                    this.$http.put('/api/employees', { roleId: 1, ...param }).then(response => {
                         this.sendMessage('员工：' + form.name + '&emsp;已经完成修改!');
                         this.$refs['formDialog'].close();
                         this.fetchData(this.page, this.size);
@@ -221,25 +220,13 @@
                 this.$refs.snackbar.open();
             },
             search() {
-                let param = {};
-                if (this.searchform.status != "") {
-                    param.status = this.searchform.status;
-                }
-                if (this.searchform.keywords != '') {
-                    param.keywords = this.searchform.keywords;
-                }
-                this.pageform = param;
+                console.log(this.$red);
+                this.pageform=this.$red.cut(this.searchform);
                 this.fetchData();
             },
             fetchData(page = 1, size = this.size, params = this.pageform) {
                 this.page = page;
-                let param = {};
-                if (params && params.length == 0) {
-                    param = { page: page, size: size };
-                } else {
-                    param = { page: page, size: size, ...params };
-                }
-                this.$http.get('/api/employees', { params: param }).then(response => {
+                this.$http.get('/api/employees', { params: { page: page, size: size, ...params } }).then(response => {
                     this.tableData = response.data.content;
                     this.total = response.data.totalElements;
                 }, response => {
@@ -258,7 +245,6 @@
     .content-form {
         width: 98%;
         margin: 1% 1% 1% 1%;
-        height:140px;
         cursor: default;
     }
     

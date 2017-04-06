@@ -35,11 +35,11 @@
                     </md-input-container>
                     <md-switch v-model="checked8"  name="my-test8">Default</md-switch>
                     <div>
-                        <md-radio v-model="radio3"  name="my-test-group3" md-value="1" class="md-primary">帅哥</md-radio>
+                        <md-radio v-model="radio3"  name="my-test-group3" md-value="1"  class="md-primary">帅哥</md-radio>
                         <md-radio v-model="radio3"  name="my-test-group3" md-value="2" class="md-accent">美女</md-radio>
                     </div>
 
-                    <md-input-container class="md-input-invalid">
+                    <md-input-container class="md-input-invalid" >
                         <label>模板备注</label>
                         <md-textarea></md-textarea>
                         <span class="md-error">Textarea validation message</span>

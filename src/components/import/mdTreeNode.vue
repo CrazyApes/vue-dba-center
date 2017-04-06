@@ -60,7 +60,7 @@
         border-radius: 3px;
     }
     .mdTreeNode:hover {
-        background: #c5cae9;
+        background: #80CBC4;
     }
     .icon-span {
         float: left;
@@ -76,7 +76,7 @@
         margin-left: 8px;
     }
     .selected{
-        background:#3f51b5;
+        background:#009688;
         color:white
     }
 

@@ -31,7 +31,7 @@
     right:0px;
     bottom: 40px;
     overflow: none;
-    background:#ECEFF1;
+    background:#fafafa;
 }
 
 </style>

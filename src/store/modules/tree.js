@@ -6,20 +6,20 @@ export default {
         node:{}
   },
   mutations: {
-    setNode(state,node){//store.commit('setNode',{..payload})
+    setNode(state,node){
         state.node=node;
     }
   },
   actions:{
-    setNodeAsync(context,node){//store.dispatch('setNodeAsync',{..payload})
-        context.commit({//otherstyle
+    setNodeAsync(context,node){
+        context.commit({
             type:'setNode',
             node:node
         })
     }
   },
   getters:{
-    node (state) {  //store.getters.node
+    node (state) {
       return state.node;
     }
   }

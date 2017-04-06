@@ -18,8 +18,8 @@
         height:40px;
         left:0;
         right:0;
-        background: #3f51b5;
-        color: navajowhite;
+        background: #00897b;
+        color: white;
         text-align:center;
         line-height: 40px;
    }

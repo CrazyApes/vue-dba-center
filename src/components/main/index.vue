@@ -28,20 +28,17 @@ export default {
                 {name:"员工分页",path:"/employees?page=1&size=1"},
                 {name:"员工信息",path:"/employees/1"},
                 {name:"角色分页",path:"/roles?page=1&size=1"}
-                
+
             ]
         },
         shuffle(){
             this.list=_.shuffle(this.list);
         },
         getApi(path){
-             this.$http.get('/api'+path).then(response => {
-                    // 响应成功回调
-                    console.log(response);
-                }, response => {
-                    // 响应错误回调
-                     console.log("error:"+response);
-                });
+            this.$red.ajax(this,'get','/api'+path,null,function(status,data){
+                console.log(status,data);
+            })
+
         }
     }
 }
@@ -55,6 +52,27 @@ export default {
     #index ul{
         list-style: none;
     }
+    #index ul li:nth-child(5n+1){
+        color: white;
+        background:#00695C
+    }
+    #index ul li:nth-child(5n+2){
+        color: white;
+        background:#00796B
+    }
+    #index ul li:nth-child(5n+3){
+        color: white;
+        background:#00897B
+    }
+    #index ul li:nth-child(5n+4){
+        color: white;
+        background:#009688
+    }
+    #index ul li:nth-child(5n+5){
+        color: white;
+        background:#26A69A
+    }
+
     #index ul li{
         float:left;
         transform: scale(1) ;
@@ -71,13 +89,13 @@ export default {
     .fundation-card{
         width: 100px;
         height: 100px;
-        margin: 20px 20px;
-        color: white;
-        cursor: default;
-        background:#634598;
+        margin: 5px 5px;
+
+        cursor: pointer;
+
         line-height: 100px;
         vertical-align: middle;
         text-align: center;
-        border-radius: 100%;
+        border-radius: 5%;
     }
 </style>

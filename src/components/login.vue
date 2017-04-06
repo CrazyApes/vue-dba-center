@@ -18,10 +18,6 @@
                     </md-layout>
                 </form>
         </md-layout>
-        <md-snackbar ref="snackbar">
-            <span v-html="message"></span>
-            <md-button class="md-accent md-raised" @click.native="$refs.snackbar.close()">close</md-button>
-        </md-snackbar>
     </div>
 </template>
 
@@ -30,9 +26,8 @@
         name: 'login',
         data() {
             return {
-                username: '',
-                password: '',
-                message:''
+                username: 'YD12345678',
+                password: 'yd12345678'
             }
         },
         mounted () {
@@ -44,14 +39,18 @@
                     username: this.username,
                     password: this.password
                 }
-                this.$router.push({ path: '/content/main' });
-                // this.$http.post('/api/tokens',param).then(response=>{
-                //   this.$store.commit('emp',response.data);
-                //   this.$router.push({ path: '/content/main' });
-                // }, response=>{
-                //   this.message=response.body;
-                //   this.$refs.snackbar.open();
-                // })
+
+
+                this.$red.ajax(this,'post','/api/tokens',param,(status,data)=>{
+                    console.log(status,data)
+                    if(status){
+                        this.$store.commit('emp',data);
+                        this.$red.setEmp(data);
+                        this.$router.push({ path: '/content/main' });
+                    }else{
+                        this.message=response.body;
+                    }
+                })
 
             }
         }
@@ -71,7 +70,7 @@
         margin-top: 200px;
         width: 400px;
         box-sizing: content-box;
-        padding: 50px 50px 40px  50px;
+        padding: 50px 50px 40px 50px;
         background:rgba(219, 216, 219, 0.8);
         z-index: 2
     }

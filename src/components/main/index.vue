@@ -10,6 +10,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'index',
     data () {
@@ -23,22 +24,16 @@ export default {
     methods: {
         fetchData(){
             this.list=[
-                {name:"客户分页",path:"/customers?page=1&size=1"},
-                {name:"客户信息",path:"/customers/1"},
-                {name:"员工分页",path:"/employees?page=1&size=1"},
-                {name:"员工信息",path:"/employees/1"},
-                {name:"角色分页",path:"/roles?page=1&size=1"}
-
+                {name:"员工管理",path:"/content/employeeTable"},
+                {name:"客户管理",path:"/content/customerTable"},
+                {name:"价格模板",path:"/content/addPriceDome"}
             ]
         },
         shuffle(){
             this.list=_.shuffle(this.list);
         },
         getApi(path){
-            this.$red.ajax(this,'get','/api'+path,null,function(status,data){
-                console.log(status,data);
-            })
-
+            this.$router.push({path:path});
         }
     }
 }
@@ -80,6 +75,7 @@ export default {
     }
     #index ul li:hover{
         transform: scale(1.2) ;
+        font-size: 18px;
         transition: transform .5s;
     }
 
@@ -87,13 +83,13 @@ export default {
         transition: transform .5s;
     }
     .fundation-card{
-        width: 100px;
-        height: 100px;
-        margin: 5px 5px;
-
+        width: 150px;
+        height: 150px;
+        margin: 5px 20px;
+        font-size: 16px;
         cursor: pointer;
-
-        line-height: 100px;
+        user-select: none;
+        line-height: 150px  ;
         vertical-align: middle;
         text-align: center;
         border-radius: 5%;

@@ -1,13 +1,13 @@
 <template>
     <div id="content">
         <v-header></v-header>
-        <v-menu :show="show"></v-menu>
+        <v-menu :class="{hideMenu:!show}"></v-menu>
         <!-- 路由匹配到的组件将渲染在这里 -->
-        <transition enter-active-class="animated fadeIn" >
+        <transition enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
             <router-view class="content" :class="{hide:!show}"></router-view>
         </transition>
         <v-footer></v-footer>
-        <div class="menu-hide-button" :class="{hideTag:!show} ">
+        <div class="menu-hide-button" :class="{hideTag:!show}">
             <md-button class="md-icon-button md-raised md-accent" @click.native="hidenMenu">
                 <md-icon v-html="tag">add</md-icon>
             </md-button>
@@ -34,13 +34,46 @@
         methods: {
             hidenMenu(){
                 this.show=!this.show;
+                this.show?this.exitFullscreen():this.fullscrean();
+            },
+            exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            },
+            fullscrean(){
+                let fullscreenEnabled =
+                    document.fullscreenEnabled ||
+                    document.mozFullScreenEnabled ||
+                    document.webkitFullscreenEnabled ||
+                    document.msFullscreenEnabled;
+                let element=document.getElementById('app');
+                if (fullscreenEnabled) {
+                    element.webkitRequestFullScreen();
+                } else {
+                    console.log('浏览器当前不能全屏');
+                }
             }
         },
         mounted () {
             document.onkeydown = (event)=>{
-                var e = event || window.event || arguments.callee.caller.arguments[0];
+                let e = event || window.event || arguments.callee.caller.arguments[0];
                 if (e && e.keyCode == 27&&this.$red.getEmp()) { // 按 Esc
                     this.$router.push({path:'/content/main'})
+                }else if(e && e.keyCode == 17&&this.$red.getEmp()){
+                    if(this.$router.history.current.path=="/content/main"){
+                        return false;
+                    }else{
+                        this.$router.go(-1);
+                    }
+                }else if(e && e.keyCode == 18&&this.$red.getEmp()){
+                    this.$router.go(1);
                 }
             };
         }
@@ -56,27 +89,24 @@
     bottom: 40px;
     overflow: none;
     background:#fafafa;
+    transition: 0.5s;
+    z-index:2;
 }
 .hide{
-    left: 0px;
-    transition: 0.5s;
+    left:0px;
 }
 .hideTag{
-    left:0px;
-    transition:sx 0.5;
+    left:0;
+    transition: rorateX(10deg);
 }
-@keyframes sx{
-    from {
-        transform: rotateZ(0);
-    }
-    to {
-        transform: rotateZ(180deg);
-    }
+.hideMenu{
+    display: none;
 }
 .menu-hide-button{
     position: fixed;
     top:80px;
     left:220px;
-    z-index: 10
+    z-index: 3;
+    transform: 0.5s;
 }
 </style>

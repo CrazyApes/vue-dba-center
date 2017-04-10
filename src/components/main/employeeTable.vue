@@ -231,8 +231,9 @@
                 this.fetchData();
             },
             fetchData(page = 1, size = this.size, params = this.pageform) {
-                this.page = page;
-                this.$red.ajax(this,'get','/api/employees',{ page: page, size: size, ...params },(status,data)=>{
+                let maxPage=Math.ceil(this.total/this.size);
+                this.page=page>maxPage&&page!=1?maxPage:page;
+                this.$red.ajax(this,'get','/api/employees',{ page: this.page, size: size, ...params },(status,data)=>{
                     if(status){
                         this.tableData = data.content;
                         this.total = data.totalElements;

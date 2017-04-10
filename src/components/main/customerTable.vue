@@ -1,213 +1,257 @@
 <template>
-    <div id='userTable' style="display: flex">
+    <div id='userTable'>
+        <md-card class="content-form">
+            <md-card-header-text>
+                <div class="md-title table-title">客户列表</div>
+            </md-card-header-text>
+            <md-card-content>
+                <form @submit.prevent="void(0)">
+                    <md-input-container class="inline-select ">
+                        <label for="status">员工状态</label>
+                        <md-select name="status" v-model="searchform.status">
+                            <md-option value="">所有</md-option>
+                            <md-option value="ACTIVE">在职</md-option>
+                            <md-option value="INACTIVE">离职</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="inline-form">
+                        <label>姓名</label>
+                        <md-input type="text" name="keywords" v-model="searchform.keywords" @keypress.native.enter="search()"></md-input>
+                    </md-input-container>
+                    <md-button class="md-primary md-raised inline-button" @click.native="search()">search</md-button>
+                    <md-button class="md-accent md-raised inline-button" @click.native="add()">create employee</md-button>
+                </form>
+            </md-card-content>
+        </md-card>
         <md-table-card class="content-body">
-            <md-toolbar>
-                <span class="md-title">客户列表</span>
-                <md-button class="md-icon-button md-raised" @click.native="createCustomer()">
-                    <md-icon>filter_list</md-icon>
-                </md-button>
-                <md-button class="md-icon-button md-raised" @click.native="chengetable()" >
-                    <md-icon >search</md-icon>
-                    <md-tooltip md-direction="top">查询</md-tooltip>
-                </md-button>
-            </md-toolbar>
-            <md-table-alternate-header md-selected-label="selected">
-                <md-button class="md-icon-button md-raised">
-                    <md-icon>delete</md-icon>
-                </md-button>
-                <md-button class="md-icon-button md-raised">
-                    <md-icon>more_vert</md-icon>
-                </md-button>
             </md-table-alternate-header>
-            <md-table @sort="sort" @select="selectRows">
+            <md-table>
                 <md-table-header>
                     <md-table-row>
-                        <md-table-head>
-                            Username
-                        </md-table-head>
-                        <md-table-head>
-                            Calories (g)
-                        </md-table-head>
-                        <md-table-head>
-                            <md-icon>message</md-icon>
-                            <span>Comments</span>
-                        </md-table-head>
-                        <md-table-head>
-                            OrderNum
-                        </md-table-head>
+                        <md-table-head>姓名</md-table-head>
+                        <md-table-head>职责</md-table-head>
+                        <md-table-head>性别</md-table-head>
+                        <md-table-head>员工状态</md-table-head>
+                        <md-table-head>操作</md-table-head>
                     </md-table-row>
                 </md-table-header>
                 <md-table-body>
-                    <md-table-row v-for="(item,rowIndex) in tableData" :key="rowIndex" :md-item="item" md-selection>
+                    <md-table-row v-for="(item,rowIndex) in tableData" :key="rowIndex" :md-item="item">
                         <md-table-cell>
-                            {{item.username}}
+                            {{item.name}}
                         </md-table-cell>
                         <md-table-cell>
-                            {{item.calories}}
+                            {{item.role.title}}
                         </md-table-cell>
                         <md-table-cell>
-                            {{item.comments}}
+                            {{item.sex}}
                         </md-table-cell>
                         <md-table-cell>
-                            {{item.id}}
+                            {{item.status=='ACTIVE'?'在职':'离职'}}
                         </md-table-cell>
                         <md-table-cell>
                             <md-layout>
-                                <md-button class="md-icon-button md-raised" @click.native="edit(rowIndex)">
+                                <md-button class="md-icon-button md-raised" @click.native="edit(item)">
                                     <md-icon>edit</md-icon>
+                                </md-button>
+                                <md-button class="md-icon-button md-raised" @click.native="del(item)">
+                                    <md-icon>delete</md-icon>
                                 </md-button>
                             </md-layout>
                         </md-table-cell>
                     </md-table-row>
                 </md-table-body>
             </md-table>
-            <md-table-pagination style="min-height: 60px;font-size: 14px" md-size="5" :md-total="total" md-page="1" md-label="Rows" md-separator="of" :md-page-options="[5, 10, 25, 50]"
-                @pagination="onPagination">
-            </md-table-pagination>
+            <md-page style="min-height: 60px;font-size: 14px" :md-size="size" :md-total="total" :md-page="page" md-label="Rows" md-separator="of"
+                :md-page-options="[5, 10, 25, 50]" @pagination="onPagination">
+            </md-page>
         </md-table-card>
         <!--表格卡片结束-->
-        <md-dialog ref="formDialog" >
-            <md-dialog-title style="width:500px;">Employee Info</md-dialog-title>
-
+        <md-dialog ref="formDialog">
+            <md-dialog-title style="width:500px;">
+                <span class="md-title" style="font-size: 24px;font-weight: 400;">  员工信息  </span>
+            </md-dialog-title>
             <md-dialog-content style="width:400px;margin-left:50px;">
-                <form @submit.prevent="void(0)">
+                <form @submit.prevent="void(0)" ref="aform" v-show="addFlag">
                     <md-input-container>
-                        <label>Username</label>
-                        <md-input type="text" v-model="editform.username"></md-input>
+                        <label>用户名</label>
+                        <md-input type="text" name="ausername" v-model="addform.username"></md-input>
                     </md-input-container>
-                     <md-input-container>
-                        <label>Calories</label>
-                        <md-input type="text" v-model="editform.calories"></md-input>
+                    <md-input-container>
+                        <label>密码</label>
+                        <md-input type="text" name="apassword" v-model="addform.password"></md-input>
                     </md-input-container>
-                     <md-input-container>
-                        <label>Comments</label>
-                        <md-input type="text" v-model="editform.comments"></md-input>
+                    <md-input-container>
+                        <label>姓名</label>
+                        <md-input type="text" name="aname" v-model="addform.name"></md-input>
                     </md-input-container>
                 </form>
-
+                <form @submit.prevent="void(0)" ref="dform" v-show="!addFlag">
+                    <md-input-container>
+                        <label>姓名</label>
+                        <md-input type="text" name="dname" v-model="editform.name"></md-input>
+                    </md-input-container>
+                    <md-input-container>
+                        <label for="dsex">性别</label>
+                        <md-select name="dsex" v-model="editform.sex">
+                            <md-option value="MALE">男</md-option>
+                            <md-option value="FEMALE">女</md-option>
+                            <md-option value="SECRET">保密</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label for="dstatus">员工状态</label>
+                        <md-select name="dstatus" v-model="editform.status">
+                            <md-option value="ACTIVE">在职</md-option>
+                            <md-option value="INACTIVE">离职</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-switch v-model="editPassword" name="edpassword">是否修改密码</md-switch>
+                    <transition enter-active-class="animated bounceIn">
+                        <md-input-container v-show="editPassword">
+                            <label>密码</label>
+                            <md-input type="text" name="dpassword" v-model="editform.password"></md-input>
+                        </md-input-container>
+                    </transition>
+                </form>
             </md-dialog-content>
-
             <md-dialog-actions>
-                <md-button class="md-primary md-raised" textLable  @click.native="close">取消</md-button>
-                <md-button class="md-primary md-raised" textLable @click.native="save">保存</md-button>
+                <md-button class="md-primary md-raised" @click.native="save">Save</md-button>
+                <md-button class="md-primary " @click.native="$refs['formDialog'].close()">Cancel</md-button>
             </md-dialog-actions>
         </md-dialog>
-        <!--自定义对话框-->
+        <!--自定义对话框结束-->
+        <md-snackbar ref="snackbar">
+            <span v-html="message"></span>
+            <md-button class="md-accent md-raised" @click.native="$refs.snackbar.close()">close</md-button>
+        </md-snackbar>
+        <!--自定义snackbar结束-->
     </div>
 </template>
 
 <script>
+    import mdPagination from "../import/mdPagination.vue";
+
     export default {
         name: 'userTable',
-       
+        components: {
+            "md-page": mdPagination
+        },
         data() {
             return {
-                selectItem:{},
-                editform:{},
+                searchform: {
+                    keywords: '',
+                    status: ''
+                },
+                addFlag: false,
+                editPassword: false,
+                editform: {},
+                addform: {
+                    username: '',
+                    password: '',
+                    name: ''
+                },
                 tableData: [],
-                selectData:[],
-                total:100
+                size: 5,
+                page: 1,
+                total: 0,
+
+
+                pageform: {},
+                message: '',//消息snake
             }
         },
         methods: {
-            createCustomer(){
-                this.$http.post('/api/customers',{
-                    name:"机器人一号",
-                    mobile:"15213433333",
-                    address:"达渝仁按时大大爱迪生是萨达大声道是多少的",
-                    fax:"54623216"
-                }).then((res)=>{
-                    console.log(res)
-                },(res)=>{
-                    console.log(res)
-                });
-            },
-            chengetable(){
-                console.log('change');
-                this.tableData=[];
-                for(var a=1;a<10;a++){
-                    this.tableData.push({
-                        username: 'asdqweqed3'+a,
-                        calories: 5001+Math.round(Math.random()*100),
-                        comments: 1223,
-                        id: a
+            del(e) {
+                if (confirm('确认删除员工：' + e.name)) {
+                    this.$red.ajax(this,'delete','/api/' + e.id,null,(status,data)=>{
+                        if(status){
+                            this.fetchData(this.page, this.size);
+                            this.sendMessage('员工：' + e.name + '&emsp;已经删除!');
+                        }else{
+                            this.sendMessage(data);
+                        }
                     })
                 }
-                this.total=this.tableData.length;
-                this.$http.get('/api/employees', {param:{page:1,size:5}}).then((response) => {
-                    // 响应成功回调
-                    console.log(response);
-                }, (response) => {
-                    // 响应错误回调
-                });
-            }
-            ,
-            edit(e){
-                this.selectItem=this.tableData[e];
-                this.editform=JSON.parse(JSON.stringify(this.selectItem));
+            },
+            add() {
+                this.addFlag = true;
+                this.addform = {};
+                this.$refs['aform'].reset();
                 this.$refs['formDialog'].open();
             },
-            save(){
-                console.log(this.editform);
-                this.selectItem=this.editform;
-                this.$refs['formDialog'].close();
+            edit(e) {
+                this.addFlag = false;
+                this.editform = Object.assign({}, e);
+                this.$refs['formDialog'].open();
             },
-            close(e){
-                if(e){
-                    this.$refs['formDialog'].close();
-                }
+            save() {
+
             },
             onPagination(pagination) {
-                console.log(pagination);
-                if(pagination.page>(this.total/pagination.size)){
-                    return;
-                }
+                this.page = pagination.page;
+                this.size = pagination.size;
+                this.fetchData(pagination.page, pagination.size);
             },
-            selectRows(e) {
-                var selected=[];
-                for(var a in e){
-                    console.log(a)
-                    selected[a]=e[a];
-                }
-                console.log(selected);
+            sendMessage(message) {
+                this.message = message;
+                this.$refs.snackbar.open();
             },
-            sort(e){
-                // e={name: "username", type: "desc"};
-                console.log(e);
-            }
-
+            search() {
+                this.pageform=this.$red.cut(this.searchform);
+                this.fetchData();
+            },
+            fetchData(page = 1, size = this.size, params = this.pageform) {
+                let maxPage=Math.ceil(this.total/this.size);
+                this.page=page>maxPage&&page!=1?maxPage:page;
+                this.$red.ajax(this,'get','/api/customers',{ page: this.page, size: size, ...params },(status,data)=>{
+                    if(status){
+                        this.tableData = data.content;
+                        this.total = data.totalElements;
+                    }else{
+                        this.sendMessage(data);
+                    }
+                });
+            },
         },
-        mounted(){
-            this.tableData=[{
-                    username: 'asdasdasd3',
-                    calories: 5001,
-                    comments: 1223,
-                    id: 1
-                }, {
-                    username: 'asdasdasd2',
-                    calories: 5002,
-                    comments: 15523,
-                    id: 2
-                }, {
-                    username: 'asdasdasd1',
-                    calories: 5000,
-                    comments: 123,
-                    id: 3
-                }, {
-                    username: 'asdasdasd4',
-                    calories: 5000,
-                    comments: 12333,
-                    id: 4
-                }, {
-                    username: 'asdasdasd5',
-                    calories: 5000,
-                    comments: 12223,
-                    id: 6
-                }];
+        mounted() {
+            this.fetchData();
         }
     }
+
 </script>
 
 <style scoped>
-    .content-body{width:98%;margin:1% 1% auto 1%;max-height: 95%;}
+    .content-form {
+        width: 98%;
+        margin: 1% 1% 1% 1%;
+        cursor: default;
+    }
+    
+    .content-body {
+        width: 98%;
+        margin: 0px 1% auto 1%;
+        max-height: 95%;
+    }
+    
+    .table-title {
+        padding: 10px 10px;
+    }
+    
+    .inline-form {
+        width: 250px;
+        margin-left: 50px;
+        top: -10px;
+        display: inline-block;
+    }
+    
+    .inline-select {
+        width: 250px;
+        margin-left: 50px;
+        display: inline-block;
+    }
+    
+    .inline-button {
+        margin-top: 10px;
+    }
 </style>

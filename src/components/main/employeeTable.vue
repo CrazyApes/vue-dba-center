@@ -164,11 +164,13 @@
         methods: {
             del(e) {
                 if (confirm('确认删除员工：' + e.name)) {
-                    this.$http.delete('/api/employees/' + e.id).then(response => {
-                        this.fetchData(this.page, this.size);
-                        this.sendMessage('员工：' + e.name + '&emsp;已经删除!');
-                    }, response => {
-                        this.sendMessage(response.body);
+                    this.$red.ajax(this,'delete','/api/employees/' + e.id,null,(status,data)=>{
+                        if(status){
+                            this.fetchData(this.page, this.size);
+                            this.sendMessage('员工：' + e.name + '&emsp;已经删除!');
+                        }else{
+                            this.sendMessage(data);
+                        }
                     })
                 }
             },
@@ -186,12 +188,14 @@
             save() {
                 let form = this.addFlag ? this.addform : this.editform;
                 if (!form.id) {
-                    this.$http.post('/api/employees', { roleId: 1, ...form }).then(response => {
-                        this.sendMessage('新员工：' + form.name + '&emsp;已经录入系统!');
-                        this.$refs['formDialog'].close();
-                        this.fetchData(this.page, this.size);
-                    }, response => {
-                        this.sendMessage(response.body);
+                    this.$red.ajax(this,'post','/api/employees',{ roleId: 1, ...form },(status,data)=>{
+                        if(status){
+                            this.sendMessage('新员工：' + form.name + '&emsp;已经录入系统!');
+                            this.$refs['formDialog'].close();
+                            this.fetchData(this.page, this.size);
+                        }else{
+                            this.sendMessage(data);
+                        }
                     })
                 } else {
                     let param = {
@@ -201,12 +205,15 @@
                         sex: form.sex
                     };
                     if (this.editPassword) param.password = form.password;
-                    this.$http.put('/api/employees', { roleId: 1, ...param }).then(response => {
-                        this.sendMessage('员工：' + form.name + '&emsp;已经完成修改!');
-                        this.$refs['formDialog'].close();
-                        this.fetchData(this.page, this.size);
-                    }, response => {
-                        this.sendMessage(response.body);
+                    this.$red.ajax(this,'put','/api/employees',{roleId: 1, ...param},(status,data)=>{
+                        if(status){
+                            this.editPassword=false;
+                            this.sendMessage('员工：' + form.name + '&emsp;已经完成修改!');
+                            this.$refs['formDialog'].close();
+                            this.fetchData(this.page, this.size);
+                        }else{
+                            this.sendMessage(data);
+                        }
                     })
                 }
             },
@@ -220,17 +227,18 @@
                 this.$refs.snackbar.open();
             },
             search() {
-                console.log(this.$red);
                 this.pageform=this.$red.cut(this.searchform);
                 this.fetchData();
             },
             fetchData(page = 1, size = this.size, params = this.pageform) {
                 this.page = page;
-                this.$http.get('/api/employees', { params: { page: page, size: size, ...params } }).then(response => {
-                    this.tableData = response.data.content;
-                    this.total = response.data.totalElements;
-                }, response => {
-                    this.sendMessage(response.body);
+                this.$red.ajax(this,'get','/api/employees',{ page: page, size: size, ...params },(status,data)=>{
+                    if(status){
+                        this.tableData = data.content;
+                        this.total = data.totalElements;
+                    }else{
+                        this.sendMessage(data);
+                    }
                 });
             },
         },

@@ -12,12 +12,7 @@
   import footer from './components/include/footer.vue'
   import menu from './components/include/menu.vue'
 export default {
-  name: 'app',
-  components: {
-    'v-menu':menu,
-    'v-header':header,
-    'v-footer':footer
-  }
+  name: 'app'
 }
 </script>
 <style>

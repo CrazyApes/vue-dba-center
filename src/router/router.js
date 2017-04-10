@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import routerConfig from './routerConfig'
 
 const router=new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: __dirname, //从根路径访问
   routes: routerConfig 
 });

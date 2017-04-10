@@ -1,5 +1,5 @@
 <template>
-     <div id="menu">
+     <div id="menu" :class="{isshow:isshow}">
       <md-list>
         <md-list-item  @click.native="turn('/content/main')" >
           <md-icon class="md-size-1x">home</md-icon>
@@ -22,9 +22,16 @@
 <script>
     export default{
       name:'menu',
+      props: ['show'],
       data () {
         return {
           menuList:[],
+          isshow:false
+        }
+      },
+      watch: {
+        show:function(v){
+          this.isshow=!v;
         }
       },
       mounted () {
@@ -52,7 +59,11 @@
     width: 240px;
     left:0;
     bottom:40px;
-    background: #009688
+    background: #009688;
+  }
+  .isshow{
+    width: 0;
+    transition: 0.5s;
   }
   
 </style>

@@ -39,8 +39,6 @@
                     username: this.username,
                     password: this.password
                 }
-
-
                 this.$red.ajax(this,'post','/api/tokens',param,(status,data)=>{
                     console.log(status,data)
                     if(status){

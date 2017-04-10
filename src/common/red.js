@@ -17,6 +17,7 @@ const red = {
     getEmp(){
        return JSON.parse(window.localStorage.getItem('emp'));
     },
+    status:[true,false],
     ajax(vue,action,url,param,callback){
         let options={emulateJSON:true};
         if(this.getEmp()){
@@ -24,43 +25,41 @@ const red = {
                 Authorization:this.getEmp().token
             }
         }
-        let status=[true,false];
         switch (action) {
             case 'get':
                 vue.$http.get(url,{params:param,...options}).then(response=>{
-                    callback(status[0],response.body);
+                    callback(this.status[0],response.body);
                 },response=>{
-                    callback(status[1],response.body);
+                    callback(this.status[1],response.body);
                 })
                 break;
             case 'post':
                 vue.$http.post(url,param,options).then(response=>{
-                    callback(status[0],response.body);
+                    callback(this.status[0],response.body);
                 },response=>{
-                    callback(status[1],response.body);
+                    callback(this.status[1],response.body);
                 })
                 break;
             case 'put':
                 vue.$http.put(url,param,options).then(response=>{
-                    callback(status[0],response.body);
+                    callback(this.status[0],response.body);
                 },response=>{
-                    callback(status[1],response.body);
+                    callback(this.status[1],response.body);
                 })
                 break;
             case 'delete':
                 vue.$http.delete(url,options).then(response=>{
-                    callback(status[0],response.body);
+                    callback(this.status[0],response.body);
                 },response=>{
-                    callback(status[1],response.body);
+                    callback(this.status[1],response.body);
                 })
                 break;
         }
     }
 }
 
-red.install = (Vue,v) => {
+red.install = (Vue) => {
     Vue.prototype.$red = red;
-    console.log(v);
 };
 
 export default red;

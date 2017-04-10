@@ -15,12 +15,6 @@
                         <label for="movie">Movie</label>
                         <md-select name="movie" id="movie" v-model="movie">
                         <md-option value="fight_club">Fight Club</md-option>
-                        <md-option value="godfather">Godfather</md-option>
-                        <md-option value="godfather_ii">Godfather II</md-option>
-                        <md-option value="godfather_iii">Godfather III</md-option>
-                        <md-option value="godfellas">Godfellas</md-option>
-                        <md-option value="pulp_fiction">Pulp Fiction</md-option>
-                        <md-option value="scarface">Scarface</md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container>

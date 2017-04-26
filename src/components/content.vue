@@ -9,7 +9,8 @@
         <v-footer></v-footer>
         <div class="menu-hide-button" :class="{hideTag:!show}">
             <md-button class="md-icon-button md-raised md-accent" @click.native="hidenMenu">
-                <md-icon v-html="tag">add</md-icon>
+                <md-tooltip :md-direction="tooltip.dirction" v-html="tooltip.text">隐藏菜单</md-tooltip>
+                <md-icon>menu</md-icon>
             </md-button>
         </div>
     </div>
@@ -20,10 +21,13 @@
     import menu from './include/menu.vue'
     export default {
         name: 'content',
-        data () {
+        data() {
             return {
-                show:true,
-                tag:'add'
+                show: true,
+                tooltip:{
+                    dirction:'top',
+                    text:'隐藏目录'
+                }
             }
         },
         components: {
@@ -32,9 +36,15 @@
             'v-footer': footer
         },
         methods: {
-            hidenMenu(){
-                this.show=!this.show;
-                this.show?this.exitFullscreen():this.fullscrean();
+            hidenMenu() {
+                this.show = !this.show;
+                this.tooltip = !this.show?{
+                    dirction: 'right',
+                    text: '打开目录'
+                }:{
+                    dirction:'top',
+                    text:'隐藏菜单'
+                };
             },
             exitFullscreen() {
                 if (document.exitFullscreen) {
@@ -47,13 +57,13 @@
                     document.webkitExitFullscreen();
                 }
             },
-            fullscrean(){
+            fullscrean() {
                 let fullscreenEnabled =
                     document.fullscreenEnabled ||
                     document.mozFullScreenEnabled ||
                     document.webkitFullscreenEnabled ||
                     document.msFullscreenEnabled;
-                let element=document.getElementById('app');
+                let element = document.getElementById('app');
                 if (fullscreenEnabled) {
                     element.webkitRequestFullScreen();
                 } else {
@@ -61,18 +71,18 @@
                 }
             }
         },
-        mounted () {
-            document.onkeydown = (event)=>{
+        mounted() {
+            document.onkeydown = (event) => {
                 let e = event || window.event || arguments.callee.caller.arguments[0];
-                if (e && e.keyCode == 27&&this.$red.getEmp()) { // 按 Esc
-                    this.$router.push({path:'/content/main'})
-                }else if(e && e.keyCode == 17&&this.$red.getEmp()){
-                    if(this.$router.history.current.path=="/content/main"){
+                if (e && e.keyCode == 27 && this.$red.getEmp()) { // 按 Esc
+                    this.$router.push({ path: '/content/main' })
+                } else if (e && e.keyCode == 17 && this.$red.getEmp()) {
+                    if (this.$router.history.current.path == "/content/main") {
                         return false;
-                    }else{
+                    } else {
                         this.$router.go(-1);
                     }
-                }else if(e && e.keyCode == 18&&this.$red.getEmp()){
+                } else if (e && e.keyCode == 18 && this.$red.getEmp()) {
                     this.$router.go(1);
                 }
             };
@@ -81,32 +91,35 @@
 
 </script>
 <style scoped>
-.content{
-    position: absolute;
-    top:100px;
-    left:240px;
-    right:0px;
-    bottom: 40px;
-    overflow: none;
-    background:#fafafa;
-    transition: 0.5s;
-    z-index:2;
-}
-.hide{
-    left:0px;
-}
-.hideTag{
-    left:0;
-    transition: rorateX(10deg);
-}
-.hideMenu{
-    display: none;
-}
-.menu-hide-button{
-    position: fixed;
-    top:80px;
-    left:220px;
-    z-index: 3;
-    transform: 0.5s;
-}
+    .content {
+        position: absolute;
+        top: 100px;
+        left: 240px;
+        right: 0px;
+        bottom: 40px;
+        overflow: none;
+        background: #fafafa;
+        transition: 0.5s;
+        z-index: 2;
+    }
+    
+    .hide {
+        left: 0px;
+    }
+    
+    .menu-hide-button {
+        position: fixed;
+        top: 150px;
+        left: 200px;
+        z-index: 3;
+        transition: 0.5s;
+    }
+    
+    .hideTag {
+        left: -20px;
+    }
+    
+    .hideMenu {
+        display: none;
+    }
 </style>

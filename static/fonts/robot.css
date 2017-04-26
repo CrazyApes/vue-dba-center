@@ -385,6 +385,7 @@
 /* 为中文专门设置的 微软雅黑*/
 @font-face {
             font-family: 'Roboto';
+            font-style: normal;
             font-weight: 400;
             unicode-range: U+4E00-9FCB,U+4E00–9FD5;/*汉字字符集*/
             src: local('微软雅黑'),local('Microsoft YaHei');

@@ -35,12 +35,11 @@
         },
         methods: {
             login() {
-                var param = {
+                let param = {
                     username: this.username,
                     password: this.password
                 }
                 this.$red.ajax(this,'post','/api/tokens',param,(status,data)=>{
-                    console.log(status,data)
                     if(status){
                         this.$store.commit('emp',data);
                         this.$red.setEmp(data);
@@ -49,7 +48,6 @@
                         this.message=response.body;
                     }
                 })
-
             }
         }
     }

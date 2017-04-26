@@ -1,14 +1,18 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueX from 'vuex';
-import store from './store/store';
-import router from './router/router';
 import VueResource from 'vue-resource';
 import VueMaterial from 'vue-material';
 import ElementUI from 'element-ui';
-import App from './App';
+import VeeValidate from 'vee-validate';
 import 'lodash';
+
+import App from './App';
+import store from './store/store';
+import router from './router/router';
 import red from './common/red';
+import validateConfig from './common/formValidate';
+import validateMessage from './common/validateMessage';
 
 import 'element-ui/lib/theme-default/index.css';
 import 'animate.css/animate.min.css';
@@ -23,6 +27,8 @@ Vue.use(VueX);
 Vue.use(VueResource);
 Vue.use(VueMaterial);
 Vue.use(ElementUI);
+
+Vue.use(VeeValidate,validateConfig);
 Vue.use(red);
 
 //开启debug模式

@@ -5,7 +5,7 @@
                 <div class="md-title table-title">员工列表</div>
             </md-card-header-text>
             <md-card-content>
-                <form @submit.prevent="void(0)">
+                <form @submit.stop.prevent="submit">
                     <md-input-container class="inline-select ">
                         <label for="status">员工状态</label>
                         <md-select name="status" v-model="searchform.status">
@@ -18,8 +18,8 @@
                         <label>姓名</label>
                         <md-input type="text" name="keywords" v-model="searchform.keywords" @keypress.native.enter="search()"></md-input>
                     </md-input-container>
-                    <md-button class="md-primary md-raised inline-button" @click.native="search()">search</md-button>
-                    <md-button class="md-accent md-raised inline-button" @click.native="add()">create employee</md-button>
+                    <md-button class="md-primary md-raised inline-button" @click.native="search()">检索</md-button>
+                    <md-button class="md-accent md-raised inline-button" @click.native="add()">添加员工</md-button>
                 </form>
             </md-card-content>
         </md-card>
@@ -72,7 +72,7 @@
                 <span class="md-title" style="font-size: 24px;font-weight: 400;">  员工信息  </span>
             </md-dialog-title>
             <md-dialog-content style="width:400px;margin-left:50px;">
-                <form @submit.prevent="void(0)" ref="aform" v-show="addFlag">
+                <form @submit.stop.prevent="submit" ref="aform" v-show="addFlag">
                     <md-input-container>
                         <label>用户名</label>
                         <md-input type="text" name="ausername" v-model="addform.username"></md-input>
@@ -86,7 +86,7 @@
                         <md-input type="text" name="aname" v-model="addform.name"></md-input>
                     </md-input-container>
                 </form>
-                <form @submit.prevent="void(0)" ref="dform" v-show="!addFlag">
+                <form @submit.stop.prevent="submit" ref="dform" v-show="!addFlag">
                     <md-input-container>
                         <label>姓名</label>
                         <md-input type="text" name="dname" v-model="editform.name"></md-input>

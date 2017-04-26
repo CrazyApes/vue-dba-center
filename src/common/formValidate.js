@@ -1,16 +1,19 @@
-/**
- * 
- * @param {object} validateTarget 表单数据组
- * @param {array} rule 验证要求:[{name:'表单key',reg:'匹配正则'}]
- *        简单匹配：int   整数
- */
-export default function(validateTarget,rule){
-    let array=[{name:'表单key',reg:'匹配正则'}];
-    if(typeof validateTarget=='object'){
+const config = {
+  errorBagName: 'errors', // change if property conflicts.
+  fieldsBagName: 'fields',
+  delay: 0,
+  locale: 'pro',
+  dictionary: null,
+  strict: true, 
+  enableAutoClasses: false,
+  classNames: {
+    touched: 'touched', // the control has been blurred
+    untouched: 'untouched', // the control hasn't been blurred
+    valid: 'valid', // model is valid
+    invalid: 'invalid', // model is invalid
+    pristine: 'pristine', // control has not been interacted with
+    dirty: 'dirty' // control has been interacted with
+  }
+};
 
-    }
-
-
-
-
-}
+export default config;

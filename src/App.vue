@@ -24,7 +24,8 @@ export default {
   top:0;
   left:0;
   bottom:0;
-  min-height: 640px;min-width: 1024px;
+  min-height: 640px;
+  min-width: 1024px;
 }
 
 </style>

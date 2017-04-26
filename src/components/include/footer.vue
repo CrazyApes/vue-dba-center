@@ -41,7 +41,6 @@
        position: absolute;
        margin-left:20px;
        padding: 0 20px;
-       border: 
    }
    .center-text{
        position: absolute;
